@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/qitafeiyong"
+        app:navigationIcon="@drawable/goback_black"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/main_gray_line"/>
+    <TextView
+        android:id="@+id/totalcost"
+        android:layout_width="match_parent"
+        style="@style/TextViewStyle"
+        android:textColor="@color/black_98"
+        android:gravity="center"
+        android:layout_marginVertical="10dp"
+        android:text=""/>
+    <LinearLayout
+        style="@style/LinelayoutStyle"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            style="@style/TextViewStyle"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:text="@string/kouchuyuanyin"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            style="@style/TextViewStyle"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:text="@string/jine_yuan"/>
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

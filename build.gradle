@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
+
+    defaultConfig {
+        applicationId "com.babuwyt.siji"
+        minSdkVersion 18
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0.1"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    signingConfigs {
+        release {
+            keyAlias 'siji'
+            keyPassword '111111'
+            storePassword '111111'
+            storeFile file('E:/develop/android/project/WYTApp3/siji/src/wytsiji_key.jks')
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            debuggable true
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+}
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0'
+
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
+    implementation 'com.android.support:design:26.0.0-beta1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+    implementation 'org.xutils:xutils:3.5.0'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    compile 'com.google.zxing:core:3.3.0'
+    compile 'com.amap.api:map2d:latest.integration'
+    compile 'com.amap.api:location:latest.integration'
+    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.8@aar'
+    compile 'cn.bingoogolapple:bga-zxing:1.1.8@aar'
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
+    implementation files('src/main/jniLibs/cos-sdk-android.1.4.3.10.jar')
+    implementation files('src/main/jniLibs/okhttp-3.2.0.jar')
+    implementation files('src/main/jniLibs/okio-1.6.0.jar')
+    implementation files('src/main/jniLibs/sha1utils.jar')
+    compile 'com.liaoinstan.springview:library:1.3.0'
+    compile 'de.greenrobot:eventbus:3.0.0-beta1'
+    compile 'id.zelory:compressor:2.1.0'
+    implementation files('src/main/jniLibs/jpush-android-3.0.9.jar')
+    implementation files('src/main/jniLibs/jcore-android-1.1.7.jar')
+    implementation 'commons-codec:commons-codec:20041127.091804'
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/setting"
+        app:navigationIcon="@drawable/goback_black"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/main_gray_line"/>
+    <LinearLayout
+        android:id="@+id/layout_setting"
+        style="@style/LinelayoutStyle"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp">
+        <TextView
+            style="@style/TextViewStyle"
+            android:drawablePadding="10dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:text="@string/now_version"/>
+        <TextView
+            android:id="@+id/tv_version"
+            style="@style/TextViewStyle"
+            android:drawablePadding="10dp"
+            android:layout_width="wrap_content"
+            android:text=""/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/main_gray_line"/>
+
+    <TextView
+        android:id="@+id/tv_commit"
+        style="@style/ButtonStyle"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/logout"
+        android:textSize="16sp"/>
+</LinearLayout>

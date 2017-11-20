@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <LinearLayout
+            style="@style/LinelayoutStyle"
+            android:background="@color/white"
+            android:paddingHorizontal="20dp">
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_type"
+                style="@style/TextViewStyle"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/icon_down"
+                android:gravity="center"
+                android:drawablePadding="10dp"
+                android:text="@string/leixing"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/TextViewStyle"
+                android:layout_height="match_parent"
+                android:drawableRight="@drawable/icon_down"
+                android:gravity="center|right"
+                android:drawablePadding="10dp"
+                android:text="时间"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+</LinearLayout>

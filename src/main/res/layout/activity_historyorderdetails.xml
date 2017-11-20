@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/goback_black"
+        app:title="@string/qianbaoxiangqing" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/main_gray_line" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/yuandanzhuangtai1" />
+
+                <TextView
+                    android:id="@+id/tv_state"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/yuandanhao" />
+
+                <TextView
+                    android:id="@+id/tv_orderNum"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/luxian1" />
+
+                <TextView
+                    android:id="@+id/tv_luxian"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/tihuoshijian" />
+
+                <TextView
+                    android:id="@+id/tv_tihuoshijian"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/xiehuoshijian" />
+
+                <TextView
+                    android:id="@+id/tv_xiehuoshijian"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/remark" />
+
+                <TextView
+                    android:id="@+id/tv_remark"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/huowu1" />
+
+                <TextView
+                    android:id="@+id/tv_huowu"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/shouru" />
+
+                <TextView
+                    android:id="@+id/tv_shouru"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/youkahui" />
+
+                <TextView
+                    android:id="@+id/tv_youkahui"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/youkajine" />
+
+                <TextView
+                    android:id="@+id/tv_youkajine"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/xianjin" />
+
+                <TextView
+                    android:id="@+id/tv_xianjin"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/zengsongjine" />
+
+                <TextView
+                    android:id="@+id/tv_zengsong"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/othershouru1" />
+
+                <TextView
+                    android:id="@+id/tv_othershouru"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:text="@string/otherkouchu1" />
+
+                <TextView
+                    android:id="@+id/tv_otherkouchu"
+                    style="@style/TextViewStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/black_98" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/main_gray_line" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
