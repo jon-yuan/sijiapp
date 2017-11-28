@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.babuwyt.siji"
         minSdkVersion 18
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0.1"
 
@@ -46,7 +46,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
 
 
         // NOTE: Do not place your application dependencies here; they belong

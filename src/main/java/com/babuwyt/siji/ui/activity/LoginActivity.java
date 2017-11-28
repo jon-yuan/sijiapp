@@ -14,10 +14,13 @@ import android.widget.TextView;
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
 import com.babuwyt.siji.base.ClientApp;
+import com.babuwyt.siji.base.SessionManager;
 import com.babuwyt.siji.bean.UserInfoBean;
 import com.babuwyt.siji.entity.UserInfoEntity;
 import com.babuwyt.siji.finals.BaseURL;
 import com.babuwyt.siji.utils.UHelper;
+import com.babuwyt.siji.utils.jpush.TagAliasOperatorHelper;
+import com.babuwyt.siji.utils.jpush.TagAliasOperatorHelper.TagAliasBean;
 import com.babuwyt.siji.utils.request.CommonCallback.ResponseCallBack;
 import com.babuwyt.siji.utils.request.XUtil;
 
@@ -137,6 +140,7 @@ public class LoginActivity extends BaseActivity {
         Map<String,Object> map=new HashMap<>();
         map.put("fphone",et_phoneNum.getText().toString().trim());
         map.put("fvalidate",et_authCode.getText().toString().trim());
+        map.put("faliasState",1);
         dialog.showDialog();
         XUtil.PostJsonObj(BaseURL.LOGIN, map, new ResponseCallBack<UserInfoBean>() {
             @Override
@@ -147,6 +151,7 @@ public class LoginActivity extends BaseActivity {
                     UserInfoEntity entity=result.getObj();
                     ((ClientApp) getApplication()).saveLoginUser(entity);
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    setAlias();
                     finish();
                 }else {
                     UHelper.showToast(LoginActivity.this,result.getMsg());
@@ -158,6 +163,13 @@ public class LoginActivity extends BaseActivity {
                 dialog.dissDialog();
             }
         });
+    }
+    private void setAlias() {
+        TagAliasBean tagAliasBean = new TagAliasBean();
+        tagAliasBean.action = TagAliasOperatorHelper.ACTION_SET;
+        tagAliasBean.alias= SessionManager.getInstance().getUser().getFdriverid();
+        tagAliasBean.isAliasAction = true;
+        TagAliasOperatorHelper.getInstance().handleAction(this,1,tagAliasBean );
     }
     @Override
     protected void onDestroy() {

@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
+import com.babuwyt.siji.base.BaseActivity;
+
 import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by lenovo on 2017/7/18.
  */
 
-public class TestActivity extends Activity {
+public class TestActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/white">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/msg"
+        app:navigationIcon="@drawable/goback_black"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/main_gray_line"/>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:divider="@color/main_gray_line"
+        android:dividerHeight="1px"
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"/>
+
+
+</LinearLayout>

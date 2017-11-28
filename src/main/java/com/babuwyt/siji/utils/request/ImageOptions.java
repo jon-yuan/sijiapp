@@ -16,14 +16,14 @@ public class ImageOptions {
      */
     public static org.xutils.image.ImageOptions options(boolean Circular){
         org.xutils.image.ImageOptions options=new org.xutils.image.ImageOptions.Builder().
-                setLoadingDrawableId(R.mipmap.ic_launcher)
+                setLoadingDrawableId(R.drawable.icon_normal_pic)
                 .setUseMemCache(true).setCircular(Circular)
                 .build();
         return options;
     }
     public static org.xutils.image.ImageOptions options(ImageView.ScaleType imageScaleType){
         org.xutils.image.ImageOptions options=new org.xutils.image.ImageOptions.Builder().
-                setLoadingDrawableId(R.color.colorAccent)
+                setLoadingDrawableId(R.drawable.icon_normal_pic)
                 .setUseMemCache(true)
                 .setImageScaleType(imageScaleType)
                 .build();

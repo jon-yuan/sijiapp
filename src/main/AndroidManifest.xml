@@ -88,7 +88,13 @@
         <activity
             android:name=".ui.activity.MyWalletActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="jpush.testAction" />
+                <category android:name="jpush.testCategory" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activity.GrabOrderListActivity"
             android:launchMode="singleTask"
@@ -182,7 +188,7 @@
         <!--极光推送-->
 
         <activity
-            android:name="utils.jpush.TestActivity"
+            android:name=".ui.activity.MsgActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="jpush.testAction" />
@@ -226,7 +232,7 @@
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="com.babuwyt.siji.DataProvider"
-            android:exported="true" />
+            android:exported="false" />
 
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
@@ -272,8 +278,7 @@
         .util.jpush-->
         <receiver
             android:name=".utils.jpush.MyReceiver"
-            android:enabled="true"
-            android:exported="false">
+            android:enabled="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
@@ -288,7 +293,7 @@
         <receiver android:name=".utils.jpush.MyJPushMessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                <category android:name="com.babuwyt.siji"></category>
+                <category android:name="com.babuwyt.siji"/>
             </intent-filter>
         </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
@@ -300,5 +305,4 @@
             android:value="283631d9c3b7732757b97dee" />
 
     </application>
-
 </manifest>

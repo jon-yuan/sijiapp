@@ -10,4 +10,5 @@ public class Constants {
     public static int MY_PERMISSIONS_REQUEST_CAMERA=0x112;
     public static int MY_PERMISSIONS_REQUEST_CALL_PHONE=0x113;
     public static int MY_PERMISSIONS_REQUEST_CALL_LOCATION=0x114;
+    public static final String EXTRA_BUNDLE = "launchBundle";
 }

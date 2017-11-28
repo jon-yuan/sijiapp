@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,7 @@ import com.babuwyt.siji.ui.fragment.MainLeftFragment;
 import com.babuwyt.siji.utils.MapUtil;
 import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.utils.jpush.LocalBroadcastManager;
+import com.babuwyt.siji.utils.jpush.TagAliasOperatorHelper;
 import com.babuwyt.siji.utils.jpush.Util;
 import com.babuwyt.siji.utils.request.CommonCallback.ResponseCallBack;
 import com.babuwyt.siji.utils.request.CommonCallback.ResponseProgressCallBack;
@@ -67,12 +70,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
     @ViewInject(R.id.linear_layout)
     LinearLayout linear_layout;
+    @ViewInject(R.id.num_msg)
+    ImageView num_msg;
+    @ViewInject(R.id.layout_msg)
+    ConstraintLayout layout_msg;
     @ViewInject(R.id.tv_no_dataview)
     TextView tv_no_dataview;
     @ViewInject(R.id.tv_orderNum)
@@ -129,23 +137,48 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         init();
         initRefresh();
         getPersonal();
         getNum();
         getNewOrder();
         getVersion();
+        registerMessageReceiver();
+//        getIntents();
+    }
+
+    private void getIntents(){
+        String type=getIntent().getStringExtra(Constants.EXTRA_BUNDLE);
+        Intent i=new Intent();
+        if (type!=null){
+            switch (type) {
+                case "2":
+                case "6":
+                    i.setClass(this, MyWalletActivity.class);
+                    startActivity(i);
+                    break;
+                default:
+                    i.setClass(this, MsgActivity.class);
+                    startActivity(i);
+                    break;
+            }
+
+
+        }
     }
 
     private void initRefresh() {
+//        jpush_appid.setText(JPushInterface.getRegistrationID(this));
 //        springview.setType(SpringView.Type.FOLLOW);
         springview.setHeader(new DefaultHeader(this));
         springview.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                    getNum();
-                    getNewOrder();
-                    getPersonal();
+                getNum();
+                getNewOrder();
+                getPersonal();
             }
 
             @Override
@@ -154,6 +187,7 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
 
     //这里判断有没有数据  有数据显示 没数据提示
     private void isHasData(boolean hasData) {
@@ -232,7 +266,7 @@ public class MainActivity extends BaseActivity {
         tv_state.setText(Fdelet);
     }
 
-    @Event(value = {R.id.tv_looksignno,R.id.tv_qiandao, R.id.tv_signpic, R.id.tv_zhuanghuopic, R.id.look_pic, R.id.layout_topBtn, R.id.tv_othershourudetails, R.id.tv_otherkouchudetails, R.id.layout_qiang, R.id.tv_binding, R.id.tv_lookaddress})
+    @Event(value = {R.id.layout_msg, R.id.tv_looksignno, R.id.tv_qiandao, R.id.tv_signpic, R.id.tv_zhuanghuopic, R.id.look_pic, R.id.layout_topBtn, R.id.tv_othershourudetails, R.id.tv_otherkouchudetails, R.id.layout_qiang, R.id.tv_binding, R.id.tv_lookaddress})
     private void getE(View v) {
         if (state()) {
             switch (v.getId()) {
@@ -273,10 +307,15 @@ public class MainActivity extends BaseActivity {
                     intent.putExtra("fownsendcarid", entity.getOwnsendcarid());
                     startActivity(intent);
                     break;
-                    case R.id.tv_looksignno:
+                case R.id.tv_looksignno:
                     intent.setClass(this, SignNoListActivity.class);
                     intent.putExtra("fownsendcarid", entity.getOwnsendcarid());
                     startActivity(intent);
+                    break;
+                case R.id.layout_msg:
+                    intent.setClass(this, MsgActivity.class);
+                    startActivity(intent);
+                    num_msg.setVisibility(View.GONE);
                     break;
                 case R.id.tv_zhuanghuopic:
 
@@ -501,8 +540,8 @@ public class MainActivity extends BaseActivity {
                 if (result.isSuccess()) {
                     mEntity = result.getObj();
                     UserInfoEntity user = SessionManager.getInstance().getUser();
-                    UserInfoEntity entity=result.getObj();
-                    if (entity!=null){
+                    UserInfoEntity entity = result.getObj();
+                    if (entity != null) {
                         entity.setWebtoken(user.getWebtoken());
                         entity.setFdriverid(user.getFdriverid());
                         entity.setFdrivername(user.getFdrivername());
@@ -517,6 +556,7 @@ public class MainActivity extends BaseActivity {
 
                 }
             }
+
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
@@ -528,7 +568,7 @@ public class MainActivity extends BaseActivity {
     /**
      * 发送消息给侧滑页面，设置数据
      */
-    private void sendEven(){
+    private void sendEven() {
         DataSynEvent event = new DataSynEvent();
         event.setType(event.DATA_SYNEVENT_CODE1);
         EventBus.getDefault().post(event);
@@ -711,7 +751,7 @@ public class MainActivity extends BaseActivity {
         dialog.setTitle(getString(R.string.prompt));
         dialog.setMsg(msg);
         dialog.setCanceledTouchOutside(true);
-        dialog.setOnClick1(getString(authCode==2 ? R.string.go_auth : R.string.ok), new PromptDialog.Btn1OnClick() {
+        dialog.setOnClick1(getString(authCode == 2 ? R.string.go_auth : R.string.ok), new PromptDialog.Btn1OnClick() {
             @Override
             public void onClick() {
                 if (authCode == 2) {
@@ -721,7 +761,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        dialog.setOnClick2(authCode==2 ? getString(R.string.cancal) : null, new PromptDialog.Btn2OnClick() {
+        dialog.setOnClick2(authCode == 2 ? getString(R.string.cancal) : null, new PromptDialog.Btn2OnClick() {
             @Override
             public void onClick() {
 
@@ -736,6 +776,7 @@ public class MainActivity extends BaseActivity {
      */
     private MessageReceiver mMessageReceiver;
     public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String ACTION_NOTIFICATION_RECEIVED = "com.example.jpushdemo.ACTION_NOTIFICATION_RECEIVED";
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
@@ -745,6 +786,7 @@ public class MainActivity extends BaseActivity {
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(MESSAGE_RECEIVED_ACTION);
+        filter.addAction(ACTION_NOTIFICATION_RECEIVED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
     }
 
@@ -755,6 +797,7 @@ public class MainActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             try {
                 if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+
                     String messge = intent.getStringExtra(KEY_MESSAGE);
                     String extras = intent.getStringExtra(KEY_EXTRAS);
                     StringBuilder showMsg = new StringBuilder();
@@ -763,6 +806,9 @@ public class MainActivity extends BaseActivity {
                     if (!Util.isEmpty(extras)) {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }
+                }
+                if (ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())){
+                    num_msg.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
             }

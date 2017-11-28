@@ -47,7 +47,12 @@ public class WelComeActivity extends BaseActivity{
     private void isLogin(){
         //todo 判断是否已经登陆
         if (SessionManager.getInstance().isLogin()){
-            startActivity(new Intent(this,MainActivity.class));
+            Intent intent=new Intent(this,MainActivity.class);
+//            if(getIntent().getBundleExtra(Constants.EXTRA_BUNDLE) != null){
+//                intent.putExtra(Constants.EXTRA_BUNDLE,
+//                        getIntent().getStringExtra(Constants.EXTRA_BUNDLE));
+//            }
+            startActivity(intent);
         }else {
             startActivity(new Intent(this,LoginActivity.class));
         }

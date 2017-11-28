@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -25,7 +27,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/icon_gerenzhongxin" />
+                android:src="@drawable/icon_user_black" />
 
             <TextView
                 android:id="@+id/tv_state"
@@ -41,6 +43,40 @@
             android:text="@string/shouye"
             android:textColor="@color/black"
             android:textSize="20sp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout_msg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/img_msg"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_msg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/num_msg"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_round_red_shape"
+                app:layout_constraintEnd_toEndOf="@+id/img_msg"
+                app:layout_constraintTop_toTopOf="@+id/img_msg" />
+        </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 
     <com.liaoinstan.springview.widget.SpringView
@@ -61,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_orderNum"
-                android:layout_marginHorizontal="30dp"
+                android:paddingHorizontal="30dp"
                 android:orientation="vertical">
 
                 <TextView
