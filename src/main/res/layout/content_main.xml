@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="@dimen/defautl_navigationbar_size"
         android:gravity="center_vertical"
         android:layout_alignParentTop="true"
         android:paddingHorizontal="10dp">
@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/tv_state"
                 style="@style/TextViewStyle"
-                android:text="未认证"
+                android:text=""
                 android:textColor="#333" />
         </LinearLayout>
 
@@ -355,6 +355,7 @@
                             style="@style/TextViewStyle"
                             android:background="@drawable/button_shape"
                             android:ellipsize="end"
+                            android:visibility="invisible"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="3dp"
                             android:singleLine="true"

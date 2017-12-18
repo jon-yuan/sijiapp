@@ -44,7 +44,6 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             Bundle bundle = intent.getExtras();
-            Log.d("打印获取到的bundle", printBundle(bundle));
             JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
             String type = json.getString("type");
             Log.d("==type==", type);
@@ -64,7 +63,6 @@ public class MyReceiver extends BroadcastReceiver {
                 String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 Log.d("Registration", regId);
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-                Log.d("==推送自定义消息==", bundle.getString(JPushInterface.EXTRA_MESSAGE));
                 processCustomMessage(context, bundle);
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 processCustomMessage1(context);
@@ -92,7 +90,6 @@ public class MyReceiver extends BroadcastReceiver {
                     }
                 });
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-                Logger.d("打开通知", "");
                 openActivity(context, type, bundle);
 
             } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
@@ -118,7 +115,6 @@ public class MyReceiver extends BroadcastReceiver {
     private static String printBundle(Bundle bundle) {
         StringBuilder sb = new StringBuilder();
         for (String key : bundle.keySet()) {
-            Log.d("==key==", key);
             if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
                 sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
             } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
@@ -149,25 +145,6 @@ public class MyReceiver extends BroadcastReceiver {
 
     //发送消息到首页
     private void processCustomMessage(Context context, Bundle bundle) {
-        /**
-         * 通知在这里处理
-         */
-//                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//                NotificationCompat.Builder notification = new NotificationCompat.Builder(context);
-////                notification.setAutoCancel(true)
-////                        .setContentText("自定义通知测试一下")
-////                        .setContentTitle("极光测试")
-////                        .setSmallIcon(R.mipmap.ic_launcher);
-//
-//                notification.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" +R.raw.auth_success));
-////                Intent mIntent = new Intent(context,TestActivity.class);
-////                mIntent.putExtras(bundle);
-////                context.startActivity(mIntent);
-////                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, mIntent, 0);
-//
-////                notification.setContentIntent(pendingIntent);
-//
-//                notificationManager.notify(2, notification.build());
         if (true) {
             String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
             String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);

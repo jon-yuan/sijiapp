@@ -1,6 +1,7 @@
 package com.babuwyt.siji.ui.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,6 +18,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +31,11 @@ import com.babuwyt.siji.finals.BaseURL;
 import com.babuwyt.siji.finals.Constants;
 import com.babuwyt.siji.utils.CameraUtils;
 import com.babuwyt.siji.utils.CommonUtil;
+import com.babuwyt.siji.utils.FilesSizeUtil;
 import com.babuwyt.siji.utils.TencentYunUtils;
 import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.utils.request.ImageOptions;
+import com.babuwyt.siji.views.ImgCheckDialog;
 import com.tencent.cos.model.COSRequest;
 import com.tencent.cos.model.COSResult;
 import com.tencent.cos.task.listener.IUploadTaskListener;
@@ -49,7 +54,7 @@ import id.zelory.compressor.Compressor;
  * Created by lenovo on 2017/9/26.
  */
 @ContentView(R.layout.activity_signpic_takephoto)
-public class SignPicTakePhotoActivity extends BaseActivity {
+public class SignPicTakePhotoActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener {
     private int REQUEST_CODE = 0x01;
     private int MY_PERMISSIONS_REQUEST_CAMERA = 777;
     private static int MY_PERMISSIONS_REQUEST_READ=888;
@@ -78,17 +83,12 @@ public class SignPicTakePhotoActivity extends BaseActivity {
                 finish();
             }
         });
+        toolbar.inflateMenu(R.menu.main);
+        toolbar.setOnMenuItemClickListener(this);
     }
-    @Event(value = {R.id.img_photo,R.id.img_saoyisao,R.id.tv_commit})
+    @Event(value = {R.id.img_saoyisao,R.id.tv_commit})
     private void getE(View v){
         switch (v.getId()){
-            case R.id.img_photo:
-                if (TextUtils.isEmpty(cosPathUrl)){
-                    Quanxian();
-                }else {
-                    TackAgin();
-                }
-                break;
             case R.id.img_saoyisao:
                 if (CommonUtil.isCameraCanUse()) {
                     Intent intent = new Intent(this, RQCodeActivity.class);
@@ -96,8 +96,8 @@ public class SignPicTakePhotoActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_commit:
-                if (TextUtils.isEmpty(et_sign_num.getText().toString().trim()) || TextUtils.isEmpty(cosPathUrl)){
-                    UHelper.showToast(this,"绑定信息不全！");
+                if (TextUtils.isEmpty(cosPathUrl)){
+                    UHelper.showToast(this,"请上传照片");
                     return;
                 }
                 Intent intent=new Intent();
@@ -117,7 +117,11 @@ public class SignPicTakePhotoActivity extends BaseActivity {
             //将扫描出的信息显示出来
             et_sign_num.setText(scanResult);
         }
-
+//相册
+        if (requestCode == 1 && resultCode==Activity.RESULT_OK) {
+            final String path = data.getStringExtra("PHOTO");
+            getPath(path);
+        }
             if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     // 取得返回的Uri,基本上选择照片的时候返回的是以Uri形式，但是在拍照中有得机子呢Uri是空的，所以要特别注意
@@ -145,16 +149,21 @@ public class SignPicTakePhotoActivity extends BaseActivity {
     }
     //获取到照片地址 进行压缩后上传
     private void getPath(String path) {
-        File compressedImageFile = null;
-        try {
-            compressedImageFile = new Compressor(SignPicTakePhotoActivity.this).compressToFile(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (FilesSizeUtil.getFileSize(path) > 500 * 1024) {
+            try {
+                File compressedImageFile = new Compressor(SignPicTakePhotoActivity.this).compressToFile(new File(path));
+                srcPath = compressedImageFile.getPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            srcPath = path;
         }
-        srcPath = compressedImageFile.getPath();
+        x.image().bind(img_photo,srcPath,ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
         upload(srcPath);
     }
-    private void Quanxian(){
+
+    private void cameraAuthorization() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -169,6 +178,10 @@ public class SignPicTakePhotoActivity extends BaseActivity {
     public void startCamera() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(openCameraIntent, 0);
+    }
+    private void startPhoto() {
+        Intent intent = new Intent(SignPicTakePhotoActivity.this, PhotoActivity.class);
+        startActivityForResult(intent, 1);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -218,6 +231,9 @@ public class SignPicTakePhotoActivity extends BaseActivity {
             }
             @Override
             public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
+                if (!TextUtils.isEmpty(cosPathUrl)){
+                    delete(cosPathUrl);
+                }
                 cosPathUrl=cosPath;
                 x.image().bind(img_photo, BaseURL.BASE_IMAGE_URI+cosPath, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
             }
@@ -234,25 +250,58 @@ public class SignPicTakePhotoActivity extends BaseActivity {
         TencentYunUtils.Del(this,path);
     }
 
-    private void TackAgin(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.chongxinpaizhao));
-        builder.setPositiveButton(R.string.queding, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                delete(cosPathUrl);
-                cosPathUrl="";
-                srcPath="";
-                Quanxian();
-            }
-        });
-        builder.setNegativeButton(R.string.quxiao, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        builder.create().show();
+//    private void TackAgin(){
+//        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+//        builder.setMessage(getString(R.string.chongxinpaizhao));
+//        builder.setPositiveButton(R.string.queding, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.dismiss();
+//                delete(cosPathUrl);
+//                cosPathUrl="";
+//                srcPath="";
+//                Quanxian();
+//            }
+//        });
+//        builder.setNegativeButton(R.string.quxiao, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.dismiss();
+//            }
+//        });
+//        builder.create().show();
+//    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                isShowDialog();
+                break;
+        }
+        return true;
     }
+
+    @SuppressLint("NewApi")
+    private void isShowDialog() {
+        ImgCheckDialog dialog = new ImgCheckDialog(this);
+        dialog.setCallBackPaizhao(new ImgCheckDialog.CallBackPaizhao() {
+            @Override
+            public void callbackPaizhao() {
+                cameraAuthorization();
+            }
+        });
+        dialog.setCallBackXiangce(new ImgCheckDialog.CallBackXiangce() {
+            @Override
+            public void callbackXiangce() {
+                startPhoto();
+            }
+        });
+        dialog.create();
+        dialog.showDialog();
+    }
+
+
+
+
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 
 /**
@@ -20,8 +21,8 @@ public class FilesSizeUtil {
      *
      * @param filePath
      *            文件路径
-     * @param sizeType
-     *            获取大小的类型1为B、2为KB、3为MB、4为GB
+     * @param
+     *
      * @return double值的大小
      */
     public static String getFileOrFilesSize(String filePath) {
@@ -68,7 +69,7 @@ public class FilesSizeUtil {
      * @return
      * @throws Exception
      */
-    private static long getFileSize(File file) throws Exception {
+    public static long getFileSize(File file) throws Exception {
         long size = 0;
         if (file.exists()) {
             FileInputStream fis = null;
@@ -77,6 +78,17 @@ public class FilesSizeUtil {
         } else {
             file.createNewFile();
             Log.e("获取文件大小", "文件不存在!");
+        }
+        return size;
+    }
+    public static long getFileSize(String path){
+        File file=new File(path);
+        long size = 0;
+        try {
+            FileInputStream fis=new FileInputStream(file);
+            size = fis.available();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return size;
     }

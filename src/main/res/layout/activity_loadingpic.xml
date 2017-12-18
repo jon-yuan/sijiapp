@@ -9,20 +9,19 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/defautl_navigationbar_size"
         app:title="@string/zhuangxiezhaopian"
         app:navigationIcon="@drawable/goback_black"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/main_gray_line"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_marginTop="10dp"
-        android:paddingHorizontal="10dp"
+    <GridView
+        android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:numColumns="3"
+        android:layout_weight="1"></GridView>
     <TextView
         android:id="@+id/tv_commit"
         style="@style/ButtonStyle"

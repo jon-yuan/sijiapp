@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
@@ -22,6 +24,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +35,8 @@ import android.widget.Toast;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
 import com.babuwyt.siji.base.ClientApp;
@@ -69,6 +74,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
@@ -134,6 +141,19 @@ public class MainActivity extends BaseActivity {
     private String addressno;
     private UserInfoEntity mEntity;
 
+    private Timer mTimer = null;
+    private TimerTask mTimerTask = null;
+    private static final int TIMER_CHANGE = 0;
+    private Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==TIMER_CHANGE){
+                getCarLocation();
+            }
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,6 +167,7 @@ public class MainActivity extends BaseActivity {
         getVersion();
         registerMessageReceiver();
 //        getIntents();
+        startTimer();
     }
 
     private void getIntents(){
@@ -167,6 +188,89 @@ public class MainActivity extends BaseActivity {
 
 
         }
+    }
+
+    private void startTimer(){
+        if (mTimer == null) {
+            mTimer = new Timer();
+        }
+
+        if (mTimerTask == null) {
+            mTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    sendMessage(TIMER_CHANGE);
+                }
+            };
+        }
+
+        if(mTimer != null && mTimerTask != null )
+            mTimer.schedule(mTimerTask, 0, 1000*60*5);
+    }
+    private void stopTimer(){
+
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
+        }
+    }
+    public void sendMessage(int id){
+        if (mHandler != null) {
+            Message message =new Message();
+            message.what=id;
+            mHandler.sendMessage(message);
+        }
+    }
+    //获取车辆位置
+    private void getCarLocation(){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(SessionManager.getInstance().getUser().getFplateno());
+//        list.add("陕A44725");
+        XUtil.GetPing(BaseURL.GETLOCATION_INAPP,list,new ResponseCallBack<BaseBean>(){
+            @Override
+            public void onSuccess(BaseBean result) {
+                super.onSuccess(result);
+                if (!result.isSuccess()){
+                    getLocaation();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                super.onError(ex, isOnCallback);
+            }
+        });
+    }
+
+    private void getLocaation(){
+        MapUtil.getInstance(this).Location(new AMapLocationListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
+                }
+            }
+        });
+    }
+    private void submitGps(String lon,String lat,String address){
+        //SUBMIT_GPS
+        Map<String ,Object> map=new HashMap <String ,Object>();
+        map.put("fdriverid",SessionManager.getInstance().getUser().getFid());
+        map.put("wgLon",lon);
+        map.put("wgLat",lat);
+        map.put("address",address);
+        XUtil.PostJsonObj(BaseURL.SUBMIT_GPS,map,new ResponseCallBack<BaseBean>(){
+            @Override
+            public void onSuccess(BaseBean result) {
+                super.onSuccess(result);
+            }
+        });
     }
 
     private void initRefresh() {
@@ -239,6 +343,7 @@ public class MainActivity extends BaseActivity {
         leftAction = manager.beginTransaction();
         leftAction.replace(R.id.fl_content, fragment);
         leftAction.commit();
+        layout_msg.setVisibility(View.GONE);
     }
 
     private void setState() {
@@ -363,9 +468,14 @@ public class MainActivity extends BaseActivity {
                 super.onSuccess(result);
                 springview.onFinishFreshAndLoad();
                 dialog.dissDialog();
-                if (result.isSuccess() && result.getObj().size() >= 1) {
-                    entity = result.getObj().get(0);
-                    isHasData(true);
+                if (result.isSuccess()) {
+                    ArrayList<NewOrderInfoEntity> list=result.getObj();
+                    if (list==null || list.size()<1){
+                        isHasData(false);
+                    }else {
+                        entity = result.getObj().get(0);
+                        isHasData(true);
+                    }
                 } else {
                     isHasData(false);
                 }
@@ -419,6 +529,7 @@ public class MainActivity extends BaseActivity {
     //1签到 2装货拍照3签收拍照
     private void getLocation(final int type) {
         MapUtil.getInstance(this).Location(new AMapLocationListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
@@ -431,9 +542,29 @@ public class MainActivity extends BaseActivity {
                     if (type == 3) {
                         Task(2, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
                     }
+                    if (type==4){
+                        submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
+                    }
                 } else {
+                    //定位失败提示
+                    final PromptDialog dialog = new PromptDialog(MainActivity.this);
+                    dialog.setTitle(getString(R.string.prompt));
+                    dialog.setMsg(getString(R.string.plsase_look_location_or_network));
+                    dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
+                        @Override
+                        public void onClick() {
+                            dialog.dissDialog();
 
-                    UHelper.showToast(MainActivity.this, "定位失败！请检查网络。");
+                        }
+                    });
+                    dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
+                        @Override
+                        public void onClick() {
+                            dialog.dissDialog();
+                        }
+                    });
+                    dialog.create();
+                    dialog.showDialog();
                 }
             }
         });
@@ -698,30 +829,47 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == Constants.MY_PERMISSIONS_REQUEST_CALL_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                UHelper.showToast(this, "已授权定位服务。");
-            } else {
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-                builder.setMessage("您没有授权定位权限，程序将无法使用！\n 该权限是为了获取当前位置信息。");
-                builder.setTitle("授权失败");
-                builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+
+                final PromptDialog dialog = new PromptDialog(MainActivity.this);
+                dialog.setTitle(getString(R.string.prompt));
+                dialog.setMsg(getString(R.string.shouquanchenggong));
+                dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onClick() {
+
                     }
                 });
-                builder.setNegativeButton("好", new DialogInterface.OnClickListener() {
+                dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick() {
+                    }
+                });
+                dialog.create();
+                dialog.showDialog();
+
+            } else {
+                final PromptDialog dialog = new PromptDialog(MainActivity.this);
+                dialog.setTitle(getString(R.string.prompt));
+                dialog.setMsg(getString(R.string.plsase_look_location_or_network));
+                dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
+                    @Override
+                    public void onClick() {
                         Intent intent = new Intent(Settings.ACTION_SETTINGS);
                         startActivity(intent);
                     }
                 });
-                builder.setCancelable(false);
-                builder.create().show();
+                dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
+                    @Override
+                    public void onClick() {
+                    }
+                });
+                dialog.create();
+                dialog.showDialog();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -808,7 +956,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
                 if (ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())){
-                    num_msg.setVisibility(View.VISIBLE);
+//                    num_msg.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
             }
@@ -817,8 +965,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        stopTimer();
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.babuwyt.siji.ui.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,11 +12,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
+import com.babuwyt.siji.base.ClientApp;
 import com.babuwyt.siji.base.SessionManager;
 import com.babuwyt.siji.finals.Constants;
+import com.babuwyt.siji.views.PromptDialog;
 
 import org.xutils.view.annotation.ContentView;
 
@@ -47,7 +51,7 @@ public class WelComeActivity extends BaseActivity{
     private void isLogin(){
         //todo 判断是否已经登陆
         if (SessionManager.getInstance().isLogin()){
-            Intent intent=new Intent(this,MainActivity.class);
+            Intent intent=new Intent(this,PersonalInfoAuthActivity.class);
 //            if(getIntent().getBundleExtra(Constants.EXTRA_BUNDLE) != null){
 //                intent.putExtra(Constants.EXTRA_BUNDLE,
 //                        getIntent().getStringExtra(Constants.EXTRA_BUNDLE));
@@ -62,41 +66,58 @@ public class WelComeActivity extends BaseActivity{
     private void storageCard(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constants.MY_PERMISSIONS_REQUEST_READ);
         }else {
             timeDown();
         }
     }
+
+    @SuppressLint("NewApi")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode== Constants.MY_PERMISSIONS_REQUEST_READ){
-            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 timeDown();
             }else {
-                AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                builder.setMessage("您没有授权读写权限，程序将无法使用！\n 该权限为应用储存和读取SD卡照片使用。请前往设置授权后重新打开APP");
-                builder.setTitle("授权失败");
-                builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                String str="";
+                if (grantResults[0]!=PackageManager.PERMISSION_GRANTED){
+                    str=getString(R.string.plsase_shouquan_sdcard);
+                }
+                if (grantResults[1]!=PackageManager.PERMISSION_GRANTED){
+                    str=getString(R.string.plsase_location_sdcard);
+                }
+                if (grantResults[0]!=PackageManager.PERMISSION_GRANTED && grantResults[1]!=PackageManager.PERMISSION_GRANTED){
+                    str=getString(R.string.plsase_shouquan_location_sdcard);
+                }
+                PromptDialog dialog = new PromptDialog(this);
+                dialog.setTitle(getString(R.string.prompt));
+                dialog.setMsg(str);
+                dialog.setCanceledTouchOutside(false);
+                dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onClick() {
+                        Intent intent =  new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                });
+                dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
+                    @Override
+                    public void onClick() {
                         finish();
                     }
                 });
-                builder.setNegativeButton("好", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent =  new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
-                    }
-                });
-                builder.setCancelable(false);
-                builder.create().show();
+                dialog.create();
+                dialog.showDialog();
             }
+
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
