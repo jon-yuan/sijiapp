@@ -149,9 +149,9 @@ public class MainLeftFragment extends BaseFragment {
 
     private void setData() {
         entity = SessionManager.getInstance().getUser();
-        tv_name.setText(entity.getFdrivername());
+        tv_name.setText(entity.getFphone());
         tv_finishorder.setText(entity.getFfinishcount());
-        tv_income.setText(entity.getIncome() > 0 ? entity.getIncome() + "" : "0");
+        tv_income.setText(entity.getFaccount());
         tv_baozhengjin.setText(entity.getFcautionmoney() + "");
         if (entity.getFcautionmoney() == 0) {
             btn_chongzhi.setEnabled(true);

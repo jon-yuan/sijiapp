@@ -360,7 +360,7 @@ public class PersonalInfoAuthActivity extends BaseActivity {
         srcPath = path;
         try {
             //大于200kb 在进行压缩
-            if (CameraUtils.getFileSize(new File(path)) > 204800) {
+            if (CameraUtils.getFileSize(new File(path)) > 512000) {
                 File compressedImageFile = null;
                 try {
                     compressedImageFile = new Compressor(PersonalInfoAuthActivity.this).compressToFile(new File(path));
