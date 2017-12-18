@@ -5,11 +5,13 @@ import com.babuwyt.siji.utils.request.JsonResponseParser;
 
 import org.xutils.http.annotation.HttpResponse;
 
+import java.io.Serializable;
+
 /**
  * Created by lenovo on 2017/9/26.
  */
 @HttpResponse(parser = JsonResponseParser.class)
-public class PicEntity {
+public class PicEntity implements Serializable {
     private String picture;
     private String fpicture;
     private int type;

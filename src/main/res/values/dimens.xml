@@ -5,4 +5,6 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dimen_9dp">9dp</dimen>
+    <dimen name="defautl_navigationbar_size">45dp</dimen>
 </resources>

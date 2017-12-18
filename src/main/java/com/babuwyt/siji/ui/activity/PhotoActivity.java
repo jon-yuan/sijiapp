@@ -1,16 +1,22 @@
 package com.babuwyt.siji.ui.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +27,9 @@ import android.widget.ImageView;
 
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
+import com.babuwyt.siji.finals.Constants;
 import com.babuwyt.siji.utils.DensityUtils;
+import com.babuwyt.siji.views.PromptDialog;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -60,7 +68,7 @@ public class PhotoActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        getImages();
+        storageCard();
     }
 
     private void init() {
@@ -82,6 +90,52 @@ public class PhotoActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    //授权读写权限
+    private void storageCard(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    Constants.MY_PERMISSIONS_REQUEST_READ);
+        }else {
+            getImages();
+        }
+    }
+    @SuppressLint("NewApi")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode== Constants.MY_PERMISSIONS_REQUEST_READ){
+            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getImages();
+            }else {
+                PromptDialog dialog = new PromptDialog(this);
+                dialog.setTitle(getString(R.string.prompt));
+                dialog.setMsg(getString(R.string.plsase_shouquan_sdcard));
+                dialog.setCanceledTouchOutside(false);
+                dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
+                    @Override
+                    public void onClick() {
+                        Intent intent =  new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                });
+                dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
+                    @Override
+                    public void onClick() {
+                        finish();
+                    }
+                });
+                dialog.create();
+                dialog.showDialog();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     /**

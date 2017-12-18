@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -96,8 +97,8 @@ public class SignPicTakePhotoActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_commit:
-                if (TextUtils.isEmpty(et_sign_num.getText().toString().trim()) || TextUtils.isEmpty(cosPathUrl)){
-                    UHelper.showToast(this,"绑定信息不全！");
+                if (TextUtils.isEmpty(cosPathUrl)){
+                    UHelper.showToast(this,"请上传照片");
                     return;
                 }
                 Intent intent=new Intent();
@@ -145,13 +146,24 @@ public class SignPicTakePhotoActivity extends BaseActivity {
     }
     //获取到照片地址 进行压缩后上传
     private void getPath(String path) {
-        File compressedImageFile = null;
+        srcPath = path;
         try {
-            compressedImageFile = new Compressor(SignPicTakePhotoActivity.this).compressToFile(new File(path));
-        } catch (IOException e) {
+            //大于200kb 在进行压缩
+            if (CameraUtils.getFileSize(new File(path))>204800){
+                File compressedImageFile = null;
+                try {
+                    compressedImageFile = new Compressor(SignPicTakePhotoActivity.this).compressToFile(new File(path));
+                    srcPath = compressedImageFile.getPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        srcPath = compressedImageFile.getPath();
+
+
+
         upload(srcPath);
     }
     private void Quanxian(){

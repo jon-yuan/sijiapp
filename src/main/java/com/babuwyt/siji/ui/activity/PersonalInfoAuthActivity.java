@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -316,7 +317,6 @@ public class PersonalInfoAuthActivity extends BaseActivity {
         this.type = type;
         Intent intent = new Intent(PersonalInfoAuthActivity.this, PhotoActivity.class);
         startActivityForResult(intent, 1);
-        ;
     }
 
     @Override
@@ -354,13 +354,21 @@ public class PersonalInfoAuthActivity extends BaseActivity {
     }
     //获取到照片地址 进行压缩后上传
     private void getPath(String path) {
-        File compressedImageFile = null;
+        srcPath = path;
         try {
-            compressedImageFile = new Compressor(PersonalInfoAuthActivity.this).compressToFile(new File(path));
-        } catch (IOException e) {
+            //大于200kb 在进行压缩
+            if (CameraUtils.getFileSize(new File(path))>204800){
+                File compressedImageFile = null;
+                try {
+                    compressedImageFile = new Compressor(PersonalInfoAuthActivity.this).compressToFile(new File(path));
+                    srcPath = compressedImageFile.getPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        srcPath = compressedImageFile.getPath();
         upload(srcPath);
     }
 

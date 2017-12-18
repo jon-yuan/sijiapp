@@ -247,4 +247,7 @@
     <string name="queding">确定</string>
     <string name="shuruyanzhengma">输入验证码</string>
     <string name="msg">消息</string>
+    <string name="plsase_shouquan_sdcard">请授权SD卡权限</string>
+    <string name="plsase_look_location_or_network">请检查网络或查看是否授权定位</string>
+    <string name="shouquanchenggong">授权成功</string>
 </resources>

@@ -19,6 +19,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -205,13 +206,21 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
     }
     //获取到照片地址 进行压缩后上传
     private void getPath(String path) {
-        File compressedImageFile = null;
+        srcPath = path;
         try {
-            compressedImageFile = new Compressor(LoadingPicActivity.this).compressToFile(new File(path));
-        } catch (IOException e) {
+            //大于200kb 在进行压缩
+            if (CameraUtils.getFileSize(new File(path))>204800){
+                File compressedImageFile = null;
+                try {
+                    compressedImageFile = new Compressor(LoadingPicActivity.this).compressToFile(new File(path));
+                    srcPath = compressedImageFile.getPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        srcPath = compressedImageFile.getPath();
         upload(srcPath);
     }
 

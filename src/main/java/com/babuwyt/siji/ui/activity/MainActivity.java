@@ -239,6 +239,7 @@ public class MainActivity extends BaseActivity {
         leftAction = manager.beginTransaction();
         leftAction.replace(R.id.fl_content, fragment);
         leftAction.commit();
+        layout_msg.setVisibility(View.GONE);
     }
 
     private void setState() {
@@ -363,9 +364,14 @@ public class MainActivity extends BaseActivity {
                 super.onSuccess(result);
                 springview.onFinishFreshAndLoad();
                 dialog.dissDialog();
-                if (result.isSuccess() && result.getObj().size() >= 1) {
-                    entity = result.getObj().get(0);
-                    isHasData(true);
+                if (result.isSuccess()) {
+                    ArrayList<NewOrderInfoEntity> list=result.getObj();
+                    if (list==null || list.size()<1){
+                        isHasData(false);
+                    }else {
+                        entity = result.getObj().get(0);
+                        isHasData(true);
+                    }
                 } else {
                     isHasData(false);
                 }
@@ -419,6 +425,7 @@ public class MainActivity extends BaseActivity {
     //1签到 2装货拍照3签收拍照
     private void getLocation(final int type) {
         MapUtil.getInstance(this).Location(new AMapLocationListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
@@ -432,8 +439,25 @@ public class MainActivity extends BaseActivity {
                         Task(2, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
                     }
                 } else {
+                    //定位失败提示
+                    final PromptDialog dialog = new PromptDialog(MainActivity.this);
+                    dialog.setTitle(getString(R.string.prompt));
+                    dialog.setMsg(getString(R.string.plsase_look_location_or_network));
+                    dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
+                        @Override
+                        public void onClick() {
+                            dialog.dissDialog();
 
-                    UHelper.showToast(MainActivity.this, "定位失败！请检查网络。");
+                        }
+                    });
+                    dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
+                        @Override
+                        public void onClick() {
+                            dialog.dissDialog();
+                        }
+                    });
+                    dialog.create();
+                    dialog.showDialog();
                 }
             }
         });
@@ -698,30 +722,47 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == Constants.MY_PERMISSIONS_REQUEST_CALL_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                UHelper.showToast(this, "已授权定位服务。");
-            } else {
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-                builder.setMessage("您没有授权定位权限，程序将无法使用！\n 该权限是为了获取当前位置信息。");
-                builder.setTitle("授权失败");
-                builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+
+                final PromptDialog dialog = new PromptDialog(MainActivity.this);
+                dialog.setTitle(getString(R.string.prompt));
+                dialog.setMsg(getString(R.string.shouquanchenggong));
+                dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onClick() {
+
                     }
                 });
-                builder.setNegativeButton("好", new DialogInterface.OnClickListener() {
+                dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick() {
+                    }
+                });
+                dialog.create();
+                dialog.showDialog();
+
+            } else {
+                final PromptDialog dialog = new PromptDialog(MainActivity.this);
+                dialog.setTitle(getString(R.string.prompt));
+                dialog.setMsg(getString(R.string.plsase_look_location_or_network));
+                dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
+                    @Override
+                    public void onClick() {
                         Intent intent = new Intent(Settings.ACTION_SETTINGS);
                         startActivity(intent);
                     }
                 });
-                builder.setCancelable(false);
-                builder.create().show();
+                dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
+                    @Override
+                    public void onClick() {
+                    }
+                });
+                dialog.create();
+                dialog.showDialog();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -808,7 +849,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
                 if (ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())){
-                    num_msg.setVisibility(View.VISIBLE);
+//                    num_msg.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
             }
