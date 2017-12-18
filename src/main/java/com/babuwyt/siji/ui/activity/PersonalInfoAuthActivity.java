@@ -35,6 +35,7 @@ import com.babuwyt.siji.entity.CarTypeEntity;
 import com.babuwyt.siji.finals.BaseURL;
 import com.babuwyt.siji.finals.Constants;
 import com.babuwyt.siji.utils.CameraUtils;
+import com.babuwyt.siji.utils.FilesSizeUtil;
 import com.babuwyt.siji.utils.TencentYunUtils;
 import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.utils.request.CommonCallback.ResponseCallBack;
@@ -98,6 +99,7 @@ public class PersonalInfoAuthActivity extends BaseActivity {
     private String ftrucktypeid = "";
     private int type = 0;
     private ArrayList<CarTypeEntity> mCars;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -333,7 +335,7 @@ public class PersonalInfoAuthActivity extends BaseActivity {
                                 null, null, null);
                         if (cursor.moveToFirst()) {
                             srcPath = cursor.getString(cursor.getColumnIndex("_data"));// 获取绝对路径
-                           getPath(srcPath);
+                            getPath(srcPath);
 
                         }
                     }
@@ -352,12 +354,13 @@ public class PersonalInfoAuthActivity extends BaseActivity {
             }
         }
     }
+
     //获取到照片地址 进行压缩后上传
     private void getPath(String path) {
         srcPath = path;
         try {
             //大于200kb 在进行压缩
-            if (CameraUtils.getFileSize(new File(path))>204800){
+            if (CameraUtils.getFileSize(new File(path)) > 204800) {
                 File compressedImageFile = null;
                 try {
                     compressedImageFile = new Compressor(PersonalInfoAuthActivity.this).compressToFile(new File(path));
@@ -368,10 +371,10 @@ public class PersonalInfoAuthActivity extends BaseActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        upload(srcPath);
-    }
 
+            upload(srcPath);
+        }
+    }
     /**
      * 上传图片
      *

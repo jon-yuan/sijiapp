@@ -3,6 +3,7 @@ package com.babuwyt.siji.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.babuwyt.siji.finals.BaseURL;
 import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.utils.request.ImageOptions;
 import com.babuwyt.siji.views.BannerView;
+import com.google.gson.Gson;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -32,7 +34,7 @@ public class LookBigPictureActivity extends BaseActivity {
     BannerView bannerview;
 
     private ArrayList<View> vList;
-    private ArrayList<PicEntity> mList;
+    private ArrayList<PicEntity> mList=new ArrayList<PicEntity>();
     private int index=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +44,8 @@ public class LookBigPictureActivity extends BaseActivity {
 
     private void init() {
         index=getIntent().getIntExtra("index",0);
-        mList= (ArrayList<PicEntity>) getIntent().getSerializableExtra("list");
+        Log.d("=======--",new Gson().toJson((ArrayList<PicEntity>) getIntent().getSerializableExtra("list"))+"");
+        mList.addAll((ArrayList<PicEntity>) getIntent().getSerializableExtra("list"));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +58,7 @@ public class LookBigPictureActivity extends BaseActivity {
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             x.image().bind(imageView, BaseURL.BASE_IMAGE_URI+mList.get(i).getFpicture(), ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
             vList.add(imageView);
+            Log.d("巨鲸===",BaseURL.BASE_IMAGE_URI+mList.get(i).getFpicture());
         }
 
         bannerview.setViewList(vList);

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.adapter.LoadingPicAdapter;
@@ -40,8 +41,8 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
     private static int MY_PERMISSIONS_REQUEST_CAMERA=777;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
-    @ViewInject(R.id.recyclerview)
-    RecyclerView recyclerview;
+    @ViewInject(R.id.gridview)
+    GridView gridview;
 
     private RecyclerView.LayoutManager manager;
     private ArrayList<PicEntity> mList;
@@ -76,12 +77,12 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
         });
         toolbar.inflateMenu(R.menu.main);
         toolbar.setOnMenuItemClickListener(this);
-        manager = new GridLayoutManager(this, 3);
-        recyclerview.setLayoutManager(manager);
+//        manager = new GridLayoutManager(this, 3);
+//        recyclerview.setLayoutManager(manager);
         mList = new ArrayList<PicEntity>();
         mAdapter = new LoadingPicAdapter(this);
         mAdapter.setmList(mList);
-        recyclerview.setAdapter(mAdapter);
+        gridview.setAdapter(mAdapter);
         mAdapter.setDeleteListener(this);
     }
     @Event(value = {R.id.tv_commit})
@@ -127,7 +128,7 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
                 PicEntity s = mList.get(position);
                 mList.remove(s);
                 mAdapter.notifyDataSetChanged();
-                delete(s.getPicture());
+                delete(s.getFpicture());
             }
         });
         builder.setPositiveButton(getString(R.string.quxiao), new DialogInterface.OnClickListener() {
@@ -159,7 +160,7 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
             String photoPath=data.getStringExtra("photo");
 //            upload(photoPath,signnum);
             PicEntity entity = new PicEntity();
-            entity.setPicture(photoPath);
+            entity.setFpicture(photoPath);
             entity.setfSignNo(signnum);
             mList.add(entity);
             mAdapter.notifyDataSetChanged();
@@ -180,7 +181,7 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
         ArrayList<String> pics=new ArrayList<String>();
         ArrayList<String> fSignNo=new ArrayList<String>();
         for (PicEntity entity:mList){
-            pics.add(entity.getPicture());
+            pics.add(entity.getFpicture());
             fSignNo.add(entity.getfSignNo());
         }
         Map<String,Object> map=new HashMap<String, Object>();

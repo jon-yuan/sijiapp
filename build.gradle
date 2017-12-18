@@ -9,8 +9,8 @@ android {
         applicationId "com.babuwyt.siji"
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 10
-        versionName "1.1.0"
+        versionCode 11
+        versionName "1.11.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -20,7 +20,8 @@ android {
             keyAlias 'siji'
             keyPassword '111111'
             storePassword '111111'
-            storeFile file('E:/develop/android/project/WYTApp3/siji/src/wytsiji_key.jks')
+//            storeFile file('E:/develop/android/project/WYTApp3/siji/src/wytsiji_key.jks')
+            storeFile file('E:/git_resource/siji/src/wytsiji_key.jks')
         }
     }
     buildTypes {

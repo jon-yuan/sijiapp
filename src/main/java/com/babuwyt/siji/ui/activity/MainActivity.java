@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
@@ -22,6 +24,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +35,8 @@ import android.widget.Toast;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
 import com.babuwyt.siji.base.ClientApp;
@@ -69,6 +74,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
@@ -134,6 +141,19 @@ public class MainActivity extends BaseActivity {
     private String addressno;
     private UserInfoEntity mEntity;
 
+    private Timer mTimer = null;
+    private TimerTask mTimerTask = null;
+    private static final int TIMER_CHANGE = 0;
+    private Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==TIMER_CHANGE){
+                getCarLocation();
+            }
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,6 +167,7 @@ public class MainActivity extends BaseActivity {
         getVersion();
         registerMessageReceiver();
 //        getIntents();
+        startTimer();
     }
 
     private void getIntents(){
@@ -167,6 +188,89 @@ public class MainActivity extends BaseActivity {
 
 
         }
+    }
+
+    private void startTimer(){
+        if (mTimer == null) {
+            mTimer = new Timer();
+        }
+
+        if (mTimerTask == null) {
+            mTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    sendMessage(TIMER_CHANGE);
+                }
+            };
+        }
+
+        if(mTimer != null && mTimerTask != null )
+            mTimer.schedule(mTimerTask, 0, 1000*60*5);
+    }
+    private void stopTimer(){
+
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
+        }
+    }
+    public void sendMessage(int id){
+        if (mHandler != null) {
+            Message message =new Message();
+            message.what=id;
+            mHandler.sendMessage(message);
+        }
+    }
+    //获取车辆位置
+    private void getCarLocation(){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(SessionManager.getInstance().getUser().getFplateno());
+//        list.add("陕A44725");
+        XUtil.GetPing(BaseURL.GETLOCATION_INAPP,list,new ResponseCallBack<BaseBean>(){
+            @Override
+            public void onSuccess(BaseBean result) {
+                super.onSuccess(result);
+                if (!result.isSuccess()){
+                    getLocaation();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                super.onError(ex, isOnCallback);
+            }
+        });
+    }
+
+    private void getLocaation(){
+        MapUtil.getInstance(this).Location(new AMapLocationListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
+                }
+            }
+        });
+    }
+    private void submitGps(String lon,String lat,String address){
+        //SUBMIT_GPS
+        Map<String ,Object> map=new HashMap <String ,Object>();
+        map.put("fdriverid",SessionManager.getInstance().getUser().getFid());
+        map.put("wgLon",lon);
+        map.put("wgLat",lat);
+        map.put("address",address);
+        XUtil.PostJsonObj(BaseURL.SUBMIT_GPS,map,new ResponseCallBack<BaseBean>(){
+            @Override
+            public void onSuccess(BaseBean result) {
+                super.onSuccess(result);
+            }
+        });
     }
 
     private void initRefresh() {
@@ -437,6 +541,9 @@ public class MainActivity extends BaseActivity {
                     }
                     if (type == 3) {
                         Task(2, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                    }
+                    if (type==4){
+                        submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
                     }
                 } else {
                     //定位失败提示
@@ -858,8 +965,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        stopTimer();
+
     }
 
 }

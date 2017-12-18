@@ -7,6 +7,7 @@ package com.babuwyt.siji.finals;
 public class BaseURL {
         public static final String BASE_URL = "http://www.babuwyt.com:8080/tmsapi/";
     //    public static final String BASE_URL = "http://123.206.75.242:8090/tmsapi/";
+//        public static final String BASE_URL = "http://123.206.75.242:8090/tmsapi/";
     //    private static final String BASE_URL = "http://192.168.2.17:8080/api/";
 //        public static final String BASE_URL = "http://192.168.2.122:8091/";
 //    public static final String BASE_URL = "http://192.168.2.224:8080/tmsapi/";
@@ -161,4 +162,13 @@ public class BaseURL {
      * 退还保证金通知接口
      */
     public static final String SENDMESSAGE = BASE_URL + "personal/driver/sendmessage";
+    /**
+     * 入网检测车辆位置是否可用
+     */
+    public static final String GETLOCATION_INAPP = BASE_URL + "appcommon/getLocationInApp";
+    /**
+     * 上传司机gps定位坐标信息
+     */
+    public static final String SUBMIT_GPS = BASE_URL + "appcommon/submitGps";
+
 }

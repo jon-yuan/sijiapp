@@ -67,27 +67,27 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.OtherCostActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.PersonalInfoActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.XieYiActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.HistoryOrderActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.HistoryOrderDetailsActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.MyWalletActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:exported="false">
             <intent-filter>
@@ -97,55 +97,55 @@
         </activity>
         <activity
             android:name=".ui.activity.GrabOrderListActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.BindingYoukaActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.RQCodeActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LookAddressListActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LookPicActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LoadingPicActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.SignPicActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.SignPicTakePhotoActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.PersonalInfoAuthActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
 
         </activity>
         <activity
             android:name=".ui.activity.OrderDetailsActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.CashpledgeActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.BindingBankCarkActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
@@ -154,32 +154,32 @@
         </activity>
         <activity
             android:name=".ui.activity.PhotoActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.SubbranchListActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.SettingActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.LookBigPictureActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.SignNoListActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.activity.RQcodeBatmapActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!--高德地图 2bde24ef6a81786f1090780b7042552a-->

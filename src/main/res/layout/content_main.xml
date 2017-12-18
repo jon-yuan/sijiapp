@@ -355,6 +355,7 @@
                             style="@style/TextViewStyle"
                             android:background="@drawable/button_shape"
                             android:ellipsize="end"
+                            android:visibility="invisible"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="3dp"
                             android:singleLine="true"

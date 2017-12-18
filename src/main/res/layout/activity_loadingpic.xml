@@ -16,13 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/main_gray_line"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_marginTop="10dp"
-        android:paddingHorizontal="10dp"
+    <GridView
+        android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:numColumns="3"
+        android:layout_weight="1"></GridView>
     <TextView
         android:id="@+id/tv_commit"
         style="@style/ButtonStyle"

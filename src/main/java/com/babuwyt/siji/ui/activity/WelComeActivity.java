@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
@@ -50,7 +51,7 @@ public class WelComeActivity extends BaseActivity{
     private void isLogin(){
         //todo 判断是否已经登陆
         if (SessionManager.getInstance().isLogin()){
-            Intent intent=new Intent(this,PersonalInfoAuthActivity.class);
+            Intent intent=new Intent(this,MainActivity.class);
 //            if(getIntent().getBundleExtra(Constants.EXTRA_BUNDLE) != null){
 //                intent.putExtra(Constants.EXTRA_BUNDLE,
 //                        getIntent().getStringExtra(Constants.EXTRA_BUNDLE));
@@ -65,10 +66,12 @@ public class WelComeActivity extends BaseActivity{
     private void storageCard(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constants.MY_PERMISSIONS_REQUEST_READ);
         }else {
             timeDown();
@@ -78,12 +81,22 @@ public class WelComeActivity extends BaseActivity{
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode== Constants.MY_PERMISSIONS_REQUEST_READ){
-            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 timeDown();
             }else {
                 PromptDialog dialog = new PromptDialog(this);
                 dialog.setTitle(getString(R.string.prompt));
                 dialog.setMsg(getString(R.string.plsase_shouquan_sdcard));
+                String str="";
+                if (grantResults[0]!=PackageManager.PERMISSION_GRANTED){
+                    str=getString(R.string.plsase_shouquan_sdcard);
+                }
+                if (grantResults[1]!=PackageManager.PERMISSION_GRANTED){
+                    str=getString(R.string.plsase_location_sdcard);
+                }
+                if (grantResults[0]!=PackageManager.PERMISSION_GRANTED && grantResults[1]!=PackageManager.PERMISSION_GRANTED){
+                    str=getString(R.string.plsase_shouquan_location_sdcard);
+                }
                 dialog.setCanceledTouchOutside(false);
                 dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
                     @Override
@@ -103,6 +116,7 @@ public class WelComeActivity extends BaseActivity{
                 dialog.create();
                 dialog.showDialog();
             }
+
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
