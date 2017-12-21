@@ -728,9 +728,9 @@ public class MainActivity extends BaseActivity {
         String vsersionCode = UHelper.getAppVersionInfo(this, UHelper.TYPE_VERSION_CODE);
         if (entity.getFversion() > Integer.parseInt(vsersionCode)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("发现新版本");
+            builder.setTitle(getString(R.string.new_version));
             builder.setMessage(entity.getFupdateinfo());
-            builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.updata), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
@@ -741,7 +741,7 @@ public class MainActivity extends BaseActivity {
                 builder.setCancelable(false);
             } else {
                 builder.setCancelable(true);
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.cancal), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

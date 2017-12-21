@@ -120,52 +120,25 @@ public class SignPicTakePhotoActivity extends BaseActivity implements Toolbar.On
 //相册
         if (requestCode == 1 && resultCode==Activity.RESULT_OK) {
             final String path = data.getStringExtra("PHOTO");
-            getPath(path);
+
+            if (!TextUtils.isEmpty(cosPathUrl)){
+                delete(cosPathUrl);
+            }
+            cosPathUrl=path;
+            x.image().bind(img_photo, BaseURL.BASE_IMAGE_URI+cosPathUrl, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
+
         }
-            if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    // 取得返回的Uri,基本上选择照片的时候返回的是以Uri形式，但是在拍照中有得机子呢Uri是空的，所以要特别注意
-                    Uri uri = data.getData();
-                    /*
-                     * 返回的Uri不为空时，那么图片信息数据都会在Uri中获得。如果为空，那么我们就进行下面的方式获取
-                     * 拍照后保存到相册的手机
-                     */
-                    if (uri != null) {
-                        Cursor cursor = getContentResolver().query(uri, null,
-                                null, null, null);
-                        if (cursor.moveToFirst()) {
-                            srcPath = cursor.getString(cursor.getColumnIndex("_data"));// 获取绝对路径
-                            getPath(srcPath);
-                        }
-                    }
-                    //小米等 拍照后不保存的手机
-                    else {
-                        Bitmap bm = (Bitmap) data.getExtras().get("data");
-                        String path = CameraUtils.getPath(bm);
-                        getPath(path);
-                    }
-                }
+        if (resultCode==4 && requestCode==3){
+            String path=data.getStringExtra("path");
+            if (!TextUtils.isEmpty(cosPathUrl)){
+                delete(cosPathUrl);
+            }
+            cosPathUrl=path;
+            x.image().bind(img_photo, BaseURL.BASE_IMAGE_URI+cosPathUrl, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
         }
+
     }
     //获取到照片地址 进行压缩后上传
-    private void getPath(String path) {
-        srcPath = path;
-        try {
-            //大于200kb 在进行压缩
-            if (CameraUtils.getFileSize(new File(path))>204800){
-                File compressedImageFile = null;
-                try {
-                    compressedImageFile = new Compressor(SignPicTakePhotoActivity.this).compressToFile(new File(path));
-                    srcPath = compressedImageFile.getPath();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        upload(srcPath);
-    }
 
     private void cameraAuthorization() {
         if (ContextCompat.checkSelfPermission(this,
@@ -180,8 +153,11 @@ public class SignPicTakePhotoActivity extends BaseActivity implements Toolbar.On
         }
     }
     public void startCamera() {
-        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(openCameraIntent, 0);
+//        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(openCameraIntent, 0);
+
+        Intent intent=new Intent(this,PaiZhaoActivity.class);
+        startActivityForResult(intent,3);
     }
     private void startPhoto() {
         Intent intent = new Intent(SignPicTakePhotoActivity.this, PhotoActivity.class);
@@ -218,64 +194,12 @@ public class SignPicTakePhotoActivity extends BaseActivity implements Toolbar.On
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
     /**
-     * 上传图片
-     * @param srcPath
-     */
-    public void upload(final String srcPath) {
-        if (TextUtils.isEmpty(srcPath)){
-            return;
-        }
-        final String cosPath = "SiJi/wyt" + System.currentTimeMillis() / 1000 + ".jpg";
-        TencentYunUtils.upload(this, srcPath,cosPath, new IUploadTaskListener() {
-            @Override
-            public void onProgress(COSRequest cosRequest, long l, long l1) {
-            }
-            @Override
-            public void onCancel(COSRequest cosRequest, COSResult cosResult) {
-            }
-            @Override
-            public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
-                if (!TextUtils.isEmpty(cosPathUrl)){
-                    delete(cosPathUrl);
-                }
-                cosPathUrl=cosPath;
-                x.image().bind(img_photo, BaseURL.BASE_IMAGE_URI+cosPath, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
-            }
-            @Override
-            public void onFailed(COSRequest cosRequest, COSResult cosResult) {
-            }
-        });
-    }
-    /**
      * 删除图片
      * @param path
      */
     private void delete(String path) {
         TencentYunUtils.Del(this,path);
     }
-
-//    private void TackAgin(){
-//        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-//        builder.setMessage(getString(R.string.chongxinpaizhao));
-//        builder.setPositiveButton(R.string.queding, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//                delete(cosPathUrl);
-//                cosPathUrl="";
-//                srcPath="";
-//                Quanxian();
-//            }
-//        });
-//        builder.setNegativeButton(R.string.quxiao, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//            }
-//        });
-//        builder.create().show();
-//    }
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {

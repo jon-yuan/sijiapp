@@ -16,6 +16,7 @@
     <color name="main_gray_line1">#FFF4F6F8</color>
     <color name="login_btn_color">#FF2F3E5F</color>
     <color name="color_btn_blue">#FF2D8BEE</color>
+    <color name="color_btn_blue_true">#802D8BEE</color>
     <color name="color_btn_red">#FFFF6D7B</color>
 
 

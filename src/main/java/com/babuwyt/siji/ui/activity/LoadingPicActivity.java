@@ -202,8 +202,10 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
     }
 
     public void startCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, 1);
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(intent, 1);
+        Intent intent = new Intent(this, PaiZhaoActivity.class);
+        startActivityForResult(intent, 3);
     }
 
     private void startPhoto() {
@@ -224,43 +226,31 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (data != null) {
-                // 取得返回的Uri,基本上选择照片的时候返回的是以Uri形式，但是在拍照中有得机子呢Uri是空的，所以要特别注意
-                Uri uri = data.getData();
-                    /*
-                     * 返回的Uri不为空时，那么图片信息数据都会在Uri中获得。如果为空，那么我们就进行下面的方式获取
-                     * 拍照后保存到相册的手机
-                     */
-                if (uri != null) {
-                    Cursor cursor = getContentResolver().query(uri, null,
-                            null, null, null);
-                    if (cursor.moveToFirst()) {
-                        srcPath = cursor.getString(cursor.getColumnIndex("_data"));// 获取绝对路径
-                        getPath(srcPath);
-                    }
-                }
-                //小米等 拍照后不保存的手机
-                else {
-                    Bitmap bm = (Bitmap) data.getExtras().get("data");
-                    String path = CameraUtils.getPath(bm);
-                    getPath(path);
-                }
-            }
-        }
-
-        if (requestCode == 2) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 2) {
             final String path = data.getStringExtra("PHOTO");
-            getPath(path);
+            final PicEntity entity = new PicEntity();
+            entity.setFpicture(path);
+            mList.add(entity);
+            mAdapter.notifyDataSetChanged();
+        }
+        if (resultCode == 4 && requestCode == 3) {
+            String path = data.getStringExtra("path");
+//            x.image().bind(img_idcardimg2, path, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
+//            getPath(path);
+            final PicEntity entity = new PicEntity();
+            entity.setFpicture(path);
+            mList.add(entity);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
     //获取到照片地址 进行压缩后上传
     private void getPath(String path) {
         srcPath = path;
+
         try {
             //大于200kb 在进行压缩
-            if (CameraUtils.getFileSize(new File(path)) > 204800) {
+            if (CameraUtils.getFileSize(new File(path)) > 512000) {
                 File compressedImageFile = null;
                 try {
                     compressedImageFile = new Compressor(LoadingPicActivity.this).compressToFile(new File(path));
@@ -271,8 +261,14 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
             }
         } catch (Exception e) {
             e.printStackTrace();
-            upload(srcPath);
+            Log.d("压缩已成", e + "");
         }
+        upload(srcPath);
+//        final PicEntity entity = new PicEntity();
+//        entity.setFpicture(srcPath);
+//        mList.add(entity);
+//        mAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -316,13 +312,9 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
         if (TextUtils.isEmpty(srcPath)) {
             return;
         }
-        final PicEntity entity = new PicEntity();
+
         final String cosPath = "SiJi/wyt" + System.currentTimeMillis() / 1000 + ".jpg";
-        entity.setFpicture(cosPath);
-//        PicEntity entity = new PicEntity();
-//        entity.setPicture(cosPath);
-//        mList.add(entity);
-//        mAdapter.notifyDataSetChanged();
+
         dialog.showDialog();
         TencentYunUtils.upload(this, srcPath, cosPath, new IUploadTaskListener() {
             @Override
@@ -337,6 +329,9 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
             @Override
             public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
                 dialog.dissDialog();
+                UHelper.showToast(LoadingPicActivity.this, "上传成功！！！");
+                final PicEntity entity = new PicEntity();
+                entity.setFpicture(cosPath);
                 mList.add(entity);
                 Log.d("", "shangchuanchenggong");
                 mAdapter.notifyDataSetChanged();
@@ -346,15 +341,10 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
             @Override
             public void onFailed(COSRequest cosRequest, COSResult cosResult) {
                 dialog.dissDialog();
+                UHelper.showToast(LoadingPicActivity.this, "上传失败！！！");
             }
         });
     }
-
-
-    private void test() {
-
-    }
-
     /**
      * 删除图片
      *

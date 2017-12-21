@@ -20,7 +20,7 @@ public class CameraUtils {
         FileOutputStream fileOutputStream = null;
         try {
             // 获取 SD 卡根目录
-            String saveDir = Environment.getExternalStorageDirectory() + "/wyt_photos";
+            String saveDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/wyt_photos";
             // 新建目录
             File dir = new File(saveDir);
             if (!dir.exists()) dir.mkdir();

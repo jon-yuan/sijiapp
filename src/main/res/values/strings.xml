@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">万运通-司机端</string>
+    <string name="app_name">万运通司机版</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -84,7 +84,7 @@
     <string name="mi">米</string>
     <string name="xiegang">/</string>
     <string name="binding_youka">绑定油卡</string>
-    <string name="input_or_saoyisao">输入油卡编号或扫描</string>
+    <string name="input_or_saoyisao">请输入油卡编号或扫描获取</string>
     <string name="binding">绑定</string>
     <string name="saoyisao">扫一扫</string>
     <string name="tixiehuodi">提卸货地</string>
@@ -252,4 +252,7 @@
     <string name="plsase_shouquan_location_sdcard">请授权读写/定位权限</string>
     <string name="plsase_look_location_or_network">请检查网络或查看是否授权定位</string>
     <string name="shouquanchenggong">授权成功</string>
+    <string name="is_new_version">当前版本为最新版本</string>
+    <string name="updata">更新</string>
+    <string name="new_version">发现新版本</string>
 </resources>

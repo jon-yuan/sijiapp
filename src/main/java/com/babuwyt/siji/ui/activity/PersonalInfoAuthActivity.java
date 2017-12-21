@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -53,8 +55,12 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -309,10 +315,11 @@ public class PersonalInfoAuthActivity extends BaseActivity {
         dialog.showDialog();
     }
 
+
     public void startCamera(int type) {
         this.type = type;
-        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(openCameraIntent, 0);
+        Intent intent = new Intent(this, PaiZhaoActivity.class);
+        startActivityForResult(intent, 3);
     }
 
     private void startPhoto(int type) {
@@ -325,111 +332,43 @@ public class PersonalInfoAuthActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            //相机
-            if (requestCode == 0) {
-                if (data != null) {
-                    // 取得返回的Uri,基本上选择照片的时候返回的是以Uri形式，但是在拍照中有得机子呢Uri是空的，所以要特别注意
-                    Uri uri = data.getData();
-                    if (uri != null) {
-                        Cursor cursor = getContentResolver().query(uri, null,
-                                null, null, null);
-                        if (cursor.moveToFirst()) {
-                            srcPath = cursor.getString(cursor.getColumnIndex("_data"));// 获取绝对路径
-                            getPath(srcPath);
-
-                        }
-                    }
-                    //小米等 拍照后不保存的手机
-                    else {
-                        Bitmap bm = (Bitmap) data.getExtras().get("data");
-                        String path = CameraUtils.getPath(bm);
-                        getPath(path);
-                    }
-                }
-            }
             //相册
             if (requestCode == 1) {
                 final String path = data.getStringExtra("PHOTO");
-                getPath(path);
+                withTpye(path);
             }
         }
-    }
-
-    //获取到照片地址 进行压缩后上传
-    private void getPath(String path) {
-        srcPath = path;
-        try {
-            //大于200kb 在进行压缩
-            if (CameraUtils.getFileSize(new File(path)) > 512000) {
-                File compressedImageFile = null;
-                try {
-                    compressedImageFile = new Compressor(PersonalInfoAuthActivity.this).compressToFile(new File(path));
-                    srcPath = compressedImageFile.getPath();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            upload(srcPath);
+        if (resultCode == 4 && requestCode == 3) {
+            String path = data.getStringExtra("path");
+            withTpye(path);
         }
-    }
-    /**
-     * 上传图片
-     *
-     * @param srcPath
-     */
-    public void upload(final String srcPath) {
-        if (TextUtils.isEmpty(srcPath)) {
-            return;
-        }
-        final String cosPath = "SiJi/wyt" + System.currentTimeMillis() / 1000 + ".jpg";
-//        mHandler.sendEmptyMessage(1);
-        dialog.showDialog();
-        TencentYunUtils.upload(this, srcPath, cosPath, new IUploadTaskListener() {
-            @Override
-            public void onProgress(COSRequest cosRequest, long l, long l1) {
-            }
-
-            @Override
-            public void onCancel(COSRequest cosRequest, COSResult cosResult) {
-                dialog.dissDialog();
-            }
-
-            @Override
-            public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
-                dialog.dissDialog();
-                withTpye(cosPath);
-            }
-
-            @Override
-            public void onFailed(COSRequest cosRequest, COSResult cosResult) {
-                dialog.dissDialog();
-            }
-        });
     }
 
     //idcardimg1, idcardimg2, idcardimg3, jiashiimg1, xingshizhengimg1;
     private void withTpye(String path) {
         switch (type) {
             case 1:
+                TencentYunUtils.Del(this, idcardimg1);
                 idcardimg1 = path;
                 x.image().bind(img_idcardimg1, BaseURL.BASE_IMAGE_URI + path, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
                 break;
             case 2:
+                TencentYunUtils.Del(this, idcardimg2);
                 idcardimg2 = path;
                 x.image().bind(img_idcardimg2, BaseURL.BASE_IMAGE_URI + path, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
                 break;
             case 3:
+                TencentYunUtils.Del(this, idcardimg3);
                 idcardimg3 = path;
                 x.image().bind(img_idcardimg3, BaseURL.BASE_IMAGE_URI + path, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
                 break;
             case 4:
+                TencentYunUtils.Del(this, jiashiimg1);
                 jiashiimg1 = path;
                 x.image().bind(img_jiashiimg1, BaseURL.BASE_IMAGE_URI + path, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
                 break;
             case 5:
+                TencentYunUtils.Del(this, xingshizhengimg1);
                 xingshizhengimg1 = path;
                 x.image().bind(img_xingshizhengimg1, BaseURL.BASE_IMAGE_URI + path, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
                 break;

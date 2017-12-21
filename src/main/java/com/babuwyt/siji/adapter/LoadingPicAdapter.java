@@ -126,6 +126,7 @@ public class LoadingPicAdapter extends BaseAdapter {
             }
         });
         x.image().bind(holder.img_img, BaseURL.BASE_IMAGE_URI + mList.get(i).getFpicture(), ImageOptions.options(ImageView.ScaleType.CENTER_CROP));
+//        x.image().bind(holder.img_img, mList.get(i).getFpicture(), ImageOptions.options(ImageView.ScaleType.CENTER_CROP));
         return view;
     }
 

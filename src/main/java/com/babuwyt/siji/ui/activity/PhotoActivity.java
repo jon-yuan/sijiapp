@@ -18,24 +18,39 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
+import com.babuwyt.siji.entity.PicEntity;
 import com.babuwyt.siji.finals.Constants;
+import com.babuwyt.siji.utils.CameraUtils;
 import com.babuwyt.siji.utils.DensityUtils;
+import com.babuwyt.siji.utils.TencentYunUtils;
+import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.views.PromptDialog;
+import com.tencent.cos.model.COSRequest;
+import com.tencent.cos.model.COSResult;
+import com.tencent.cos.task.listener.IUploadTaskListener;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import id.zelory.compressor.Compressor;
 
 /**
  * Created by lenovo on 2017/10/19.
@@ -84,13 +99,68 @@ public class PhotoActivity extends BaseActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent();
-                intent.putExtra("PHOTO",photos.get(i));
-                setResult(Activity.RESULT_OK,intent);
-                finish();
+
+                getPath(photos.get(i));
             }
         });
     }
+    //获取到照片地址 进行压缩后上传
+    private void getPath(String path) {
+        String srcPath = path;
+
+        try {
+            //大于200kb 在进行压缩
+            if (CameraUtils.getFileSize(new File(path)) > 512000) {
+                File compressedImageFile = null;
+                try {
+                    compressedImageFile = new Compressor(PhotoActivity.this).compressToFile(new File(path));
+                    srcPath = compressedImageFile.getPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        upload(srcPath);
+    }
+
+
+    public void upload(final String srcPath) {
+        if (TextUtils.isEmpty(srcPath)) {
+            return;
+        }
+        final String cosPath = "SiJi/wyt" + System.currentTimeMillis() / 1000 + ".jpg";
+        dialog.showDialog();
+        TencentYunUtils.upload(this, srcPath, cosPath, new IUploadTaskListener() {
+            @Override
+            public void onProgress(COSRequest cosRequest, long l, long l1) {
+            }
+
+            @Override
+            public void onCancel(COSRequest cosRequest, COSResult cosResult) {
+                dialog.dissDialog();
+
+            }
+
+            @Override
+            public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
+                dialog.dissDialog();
+
+                Intent intent=new Intent();
+                intent.putExtra("PHOTO",cosPath);
+                setResult(Activity.RESULT_OK,intent);
+                finish();
+
+            }
+
+            @Override
+            public void onFailed(COSRequest cosRequest, COSResult cosResult) {
+                dialog.dissDialog();
+            }
+        });
+    }
+
 
     //授权读写权限
     private void storageCard(){
@@ -201,6 +271,16 @@ public class PhotoActivity extends BaseActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+//            ViewHolder holder=null;
+//            if (view==null){
+//                holder=new ViewHolder();
+//                view= LayoutInflater.from(PhotoActivity.this).inflate(R.layout.adapter_item_photoactivity,null);
+//                view.setTag(holder);
+//            }else {
+//                holder= (ViewHolder) view.getTag();
+//            }
+
+
             ImageView imageView=new ImageView(PhotoActivity.this);
             int width= DensityUtils.deviceWidthPX(PhotoActivity.this);
             int picWidth=(width-DensityUtils.dip2px(PhotoActivity.this,4))/3;
@@ -208,5 +288,14 @@ public class PhotoActivity extends BaseActivity {
             x.image().bind(imageView,photos.get(i));
             return imageView;
         }
+
+//        class ViewHolder{
+//            @ViewInject(R.id.relative_layout)
+//            RelativeLayout relative_layout;
+//            @ViewInject(R.id.image)
+//            ImageView image;
+//            @ViewInject(R.id.image_select)
+//            ImageView image_select;
+//        }
     }
 }
