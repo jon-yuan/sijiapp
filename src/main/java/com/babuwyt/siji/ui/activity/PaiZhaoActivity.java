@@ -36,6 +36,7 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -499,6 +500,7 @@ public class PaiZhaoActivity extends BaseActivity {
                 btn.setVisibility(View.INVISIBLE);
                 btn_true.setVisibility(View.VISIBLE);
                 imageview.setVisibility(View.VISIBLE);
+
                 mBitmap=bitmap;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

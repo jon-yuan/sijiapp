@@ -15,10 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/main_gray_line"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bindyouka_prompt_text"
+        android:textSize="12sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginVertical="10dp"
+        android:textColor="@color/red"/>
     <LinearLayout
         style="@style/LinelayoutStyle"
         android:orientation="horizontal"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:paddingHorizontal="10dp"
         android:background="@drawable/btn_gray_stork_shape">
 
@@ -42,7 +52,7 @@
     <TextView
         android:id="@+id/tv_binding"
         style="@style/ButtonStyle"
-        android:layout_marginHorizontal="20dp"
+        android:layout_margin="20dp"
         android:text="@string/binding"
         android:textSize="16sp"/>
 </LinearLayout>

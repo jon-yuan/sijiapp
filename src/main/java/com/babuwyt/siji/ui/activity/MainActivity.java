@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -136,8 +138,8 @@ public class MainActivity extends BaseActivity {
     private FragmentTransaction leftAction;
     private Intent intent;
     private NewOrderInfoEntity entity;
-    private double latitude;
-    private double longitude;
+    private double mlatitude;
+    private double mlongitude;
     private String addressno;
     private UserInfoEntity mEntity;
 
@@ -253,10 +255,22 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
-                    submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
+                    if (mlatitude==0 || mlongitude==0){
+                        submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
+                    }else {
+                        Dis(aMapLocation);
+                    }
                 }
             }
         });
+    }
+
+    //计算两经纬度之间的距离
+    private void Dis(AMapLocation aMapLocation){
+        Double dis=MapUtil.getDistance(mlongitude,mlatitude,aMapLocation.getLongitude(),aMapLocation.getLatitude());
+        if (dis>1000){
+            submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
+        }
     }
     private void submitGps(String lon,String lat,String address){
         //SUBMIT_GPS
@@ -274,8 +288,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initRefresh() {
-//        jpush_appid.setText(JPushInterface.getRegistrationID(this));
-//        springview.setType(SpringView.Type.FOLLOW);
         springview.setHeader(new DefaultHeader(this));
         springview.setListener(new SpringView.OnFreshListener() {
             @Override
@@ -784,7 +796,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void Success(File o) {
                 dialog.dismiss();
-                installAPK();
+                install(filepath);
             }
 
             @Override
@@ -802,18 +814,23 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void installAPK() {
-        //系统应用界面，安装apk入口，看源码
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.addCategory("android.intent.category.DEFAULT");
-//        intent.setData(Uri.fromFile(file));
-//        intent.setType("application/vnd.android.package-archive");
-
-        //切记当要同时配Data和Type时一定要用这个方法，否则会出错
-        intent.setDataAndType(Uri.fromFile(filepath), "application/vnd.android.package-archive");
-
-        startActivityForResult(intent, 0);
+    private void install(File filePath) {
+        File apkFile = filePath;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri contentUri = FileProvider.getUriForFile(
+                    this
+                    , "com.babuwyt.siji.fileprovider"
+                    , apkFile);
+            intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+        }
+        startActivity(intent);
     }
+
 
     //定位权限
     private void Location(int type) {

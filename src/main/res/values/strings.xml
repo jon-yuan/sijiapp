@@ -84,7 +84,7 @@
     <string name="mi">米</string>
     <string name="xiegang">/</string>
     <string name="binding_youka">绑定油卡</string>
-    <string name="input_or_saoyisao">请输入油卡编号或扫描获取</string>
+    <string name="input_or_saoyisao">请输入油卡编号</string>
     <string name="binding">绑定</string>
     <string name="saoyisao">扫一扫</string>
     <string name="tixiehuodi">提卸货地</string>
@@ -255,4 +255,6 @@
     <string name="is_new_version">当前版本为最新版本</string>
     <string name="updata">更新</string>
     <string name="new_version">发现新版本</string>
+
+    <string name="bindyouka_prompt_text">您可以通过手动输入油卡编号或扫描二维码获取油卡编号</string>
 </resources>
