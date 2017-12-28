@@ -34,6 +34,7 @@
     <string name="chakantixiexiangqing">查看提卸详情</string>
     <string name="zhuang">装:</string>
     <string name="xie">卸:</string>
+    <string name="xie1">卸:</string>
     <string name="qitafeiyong">其他费用</string>
     <string name="jine_yuan">金额（元）</string>
     <string name="kouchuyuanyin">扣除原因</string>
@@ -171,6 +172,7 @@
     <string name="go_auth">去认证</string>
     <string name="cancal">取消</string>
     <string name="prompt">提示</string>
+    <string name="promptlocation">定位失败</string>
     <string name="ok">好</string>
     <string name="setting">设置</string>
     <string name="now_version">当前版本</string>
@@ -257,4 +259,10 @@
     <string name="new_version">发现新版本</string>
 
     <string name="bindyouka_prompt_text">您可以通过手动输入油卡编号或扫描二维码获取油卡编号</string>
+    <string name="loading_now">正在加载...</string>
+    <string name="loading_login">正在登录...</string>
+    <string name="call_quanxian" >没有授权拨打电话权限，请前往设置。</string>
+    <string name="select_time">选择时间</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
 </resources>

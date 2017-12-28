@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.babuwyt.siji.R;
 
@@ -21,6 +23,8 @@ public class LoadingDialog extends Dialog{
 
     private Context mContext;
     private ImageView loadingPic;
+    private TextView loading_text;
+    private String mText;
     private AnimationDrawable animationDrawable;
     public LoadingDialog(Context context) {
         super(context, R.style.loading_dialog);
@@ -37,13 +41,14 @@ public class LoadingDialog extends Dialog{
         View view= LayoutInflater.from(mContext).inflate(R.layout.loading_dialog,null);
         setContentView(view);
         loadingPic=view.findViewById(R.id.loadingPic);
+        loading_text=view.findViewById(R.id.loading_text);
         animationDrawable=(AnimationDrawable) loadingPic.getBackground();
         if(!animationDrawable.isRunning()){
             animationDrawable.start();
         }
-
-
-
+        if (!TextUtils.isEmpty(mText)){
+            loading_text.setText(mText);
+        }
         WindowManager.LayoutParams lp = getWindow().getAttributes();
 //        layoutParams.alpha = 1;//alpha在0.0f到1.0f之间。1.0完全不透明，0.0f完全透明，自身不可见  (dialog自身的透明度）
 //        layoutParams.dimAmount = 0;//dialog所在窗体的背景  dimAmount在0.0f和1.0f之间，0.0f完全不暗，即背景是可见的 ，1.0f时候，背景全部变黑暗
@@ -55,6 +60,9 @@ public class LoadingDialog extends Dialog{
 //        lp.width = DensityUtils.deviceWidthPX(mContext); // 设置dialog宽度为屏幕的4/5
 //        lp.height = DensityUtils.deviceHeightPX(mContext); // 设置dialog宽度为屏幕的4/5
         setCanceledOnTouchOutside(false);
+    }
+    public void setLoading_text(String text){
+        mText=text;
     }
 
     public void showDialog(){

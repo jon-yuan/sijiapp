@@ -173,6 +173,15 @@ public class DateUtils {
         return times;
 
     }
+    public static String timedate2(long time) {
+        if (time<=0){
+            return "";
+        }
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd");
+        String times = sdr.format(new Date(time));
+        return times;
+
+    }
     public static String timedate(String time) {
         if (TextUtils.isEmpty(time)){
             return "";

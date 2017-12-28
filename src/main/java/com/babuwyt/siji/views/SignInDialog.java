@@ -70,7 +70,7 @@ public class SignInDialog extends Dialog{
                     dismiss();
                 }
             }
-        }, 2000);
+        }, 1000);
 
     }
     public void setMsg(String msg){

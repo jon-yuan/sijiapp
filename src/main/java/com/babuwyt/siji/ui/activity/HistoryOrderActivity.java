@@ -97,10 +97,11 @@ public class HistoryOrderActivity extends BaseActivity {
     }
 
 
-    @Event(value = {R.id.tv_chose_time})
+    @Event(value = {R.id.tv_chose_time,R.id.img_chose_time})
     private void getE(View v){
         switch (v.getId()){
             case R.id.tv_chose_time:
+            case R.id.img_chose_time:
                 showTimeSelect();
                 break;
         }
@@ -149,12 +150,15 @@ public class HistoryOrderActivity extends BaseActivity {
         });
     }
     private void setAcount(AcountEntity acount){
-        tv_total.setText(acount==null?"0":acount.getFtotal()+"");
-        tv_youka.setText(acount==null?"0":acount.getFoilcard()+"");
-        tv_xianjin.setText(acount==null?"0":acount.getFtransport()+"");
-        tv_shouru.setText(acount==null?"0":acount.getFotherin()+"");
-        tv_kouchu.setText(acount==null?"0":acount.getFotherout()+"");
-        tv_zengsong.setText(acount==null?"0":acount.getFgiving()+"");
+        if (acount==null){
+            return;
+        }
+        tv_total.setText(acount.getFtotal());
+        tv_youka.setText(acount.getFoilcard());
+        tv_xianjin.setText(acount.getFtransport());
+        tv_shouru.setText(acount.getFotherin());
+        tv_kouchu.setText(acount.getFotherout());
+        tv_zengsong.setText(acount.getFgiving());
     }
 
     private void showTimeSelect(){
@@ -170,7 +174,7 @@ public class HistoryOrderActivity extends BaseActivity {
                 getAcountList();
             }
         }).setType(new boolean[]{true, true, false, false, false, false})// 默认全部显示
-                .setLabel("","","","","","")//默认设置为年月日时分秒
+                .setLabel(getString(R.string.year),getString(R.string.month),"","","","")//默认设置为年月日时分秒
                 .build();
         pvTime.show();
 

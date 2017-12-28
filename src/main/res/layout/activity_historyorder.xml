@@ -15,7 +15,8 @@
         app:navigationIcon="@drawable/goback"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,13 +26,13 @@
             <TextView
                 style="@style/TextViewStyle"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="@string/zongshourue"/>
             <TextView
                 android:id="@+id/tv_total"
                 style="@style/TextViewStyle"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginLeft="5dp"
                 android:singleLine="true"
                 android:ellipsize="end"
@@ -53,13 +54,13 @@
                 <TextView
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:text="@string/youkajine"/>
                 <TextView
                     android:id="@+id/tv_youka"
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:layout_marginLeft="5dp"
                     android:singleLine="true"
                     android:ellipsize="end"
@@ -74,13 +75,13 @@
                 <TextView
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:text="@string/zengsongjine"/>
                 <TextView
                     android:id="@+id/tv_zengsong"
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:layout_marginLeft="5dp"
                     android:singleLine="true"
                     android:ellipsize="end"
@@ -105,13 +106,13 @@
                 <TextView
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:text="@string/xianjinjine"/>
                 <TextView
                     android:id="@+id/tv_xianjin"
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:layout_marginLeft="5dp"
                     android:singleLine="true"
                     android:ellipsize="end"
@@ -126,13 +127,13 @@
                 <TextView
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:text="@string/qitashouru"/>
                 <TextView
                     android:id="@+id/tv_shouru"
                     style="@style/TextViewStyle"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:layout_marginLeft="5dp"
                     android:singleLine="true"
                     android:ellipsize="end"
@@ -150,7 +151,7 @@
             <TextView
                 style="@style/TextViewStyle"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="@string/qitakouchu"/>
 
             <TextView
@@ -162,32 +163,45 @@
                 android:singleLine="true"
                 android:text="--"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
         style="@style/LinelayoutStyle"
         android:background="@color/white"
+        android:gravity="center_vertical"
         android:paddingHorizontal="20dp">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon_order"
+            android:scaleType="centerInside"/>
         <TextView
             style="@style/TextViewStyle"
-            android:drawableLeft="@drawable/icon_order"
+            android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginLeft="5dp"
             android:drawablePadding="10dp"
             android:text="@string/all_order"/>
         <Space
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/img_chose_time"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon_rili"
+            android:scaleType="centerInside"/>
         <TextView
             android:id="@+id/tv_chose_time"
             style="@style/TextViewStyle"
-            android:drawableLeft="@drawable/icon_rili"
+            android:layout_height="match_parent"
             android:gravity="center|right"
+            android:layout_marginLeft="5dp"
             android:drawablePadding="10dp"
-            android:textColor="@color/black_98"
-            android:text="2017/07"/>
+            android:text="@string/select_time"/>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"

@@ -1,12 +1,19 @@
 package com.babuwyt.siji.base;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.babuwyt.siji.R;
 import com.babuwyt.siji.entity.BankInfoEntity;
 import com.babuwyt.siji.entity.UserInfoEntity;
 import com.babuwyt.siji.finals.SharePrefKeys;
+import com.babuwyt.siji.ui.activity.MainActivity;
+import com.babuwyt.siji.utils.MapUtil;
 import com.babuwyt.siji.utils.SharePreferencesUtils;
+import com.babuwyt.siji.utils.UHelper;
 import com.google.gson.Gson;
 
 import org.xutils.x;
@@ -19,6 +26,10 @@ import cn.jpush.android.api.JPushInterface;
  */
 
 public class ClientApp extends Application {
+    public static double lat = 0;
+    public static double lng=0;
+    public static String adCode=null;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,6 +37,7 @@ public class ClientApp extends Application {
 //        x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
         initUserInfo();
         initJpush();
+        Location();
     }
     private void initJpush(){
         JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
@@ -87,4 +99,19 @@ public class ClientApp extends Application {
         }
         return null;
     }
+
+    private void Location() {
+        MapUtil.getInstance(this).Location(new AMapLocationListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    lat=aMapLocation.getLatitude();
+                    lng=aMapLocation.getLatitude();
+                    adCode=aMapLocation.getAdCode();
+                }
+            }
+        },false);
+    }
+
 }

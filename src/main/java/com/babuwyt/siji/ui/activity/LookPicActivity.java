@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.babuwyt.siji.R;
@@ -17,6 +18,7 @@ import com.babuwyt.siji.finals.BaseURL;
 import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.utils.request.CommonCallback.ResponseCallBack;
 import com.babuwyt.siji.utils.request.XUtil;
+import com.google.gson.Gson;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;

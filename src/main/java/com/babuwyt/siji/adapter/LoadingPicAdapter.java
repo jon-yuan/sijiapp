@@ -122,10 +122,11 @@ public class LoadingPicAdapter extends BaseAdapter {
                 Intent intent=new Intent(mCntext,LookBigPictureActivity.class);
                 intent.putExtra("index",i);
                 intent.putExtra("list",mList);
+                intent.putExtra("isload",true);
                 mCntext.startActivity(intent);
             }
         });
-        x.image().bind(holder.img_img, BaseURL.BASE_IMAGE_URI + mList.get(i).getFpicture(), ImageOptions.options(ImageView.ScaleType.CENTER_CROP));
+        x.image().bind(holder.img_img, BaseURL.BASE_IMAGE_URI + mList.get(i).getPicture(), ImageOptions.options(ImageView.ScaleType.CENTER_CROP));
 //        x.image().bind(holder.img_img, mList.get(i).getFpicture(), ImageOptions.options(ImageView.ScaleType.CENTER_CROP));
         return view;
     }

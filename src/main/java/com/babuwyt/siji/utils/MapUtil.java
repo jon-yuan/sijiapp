@@ -162,7 +162,7 @@ public class MapUtil{
      * 定位
      */
 
-    public void Location(AMapLocationListener locationListener) {
+    public void Location(AMapLocationListener locationListener,boolean firstlocation) {
         //声明mLocationOption对象
         AMapLocationClientOption mLocationOption = null;
         mapLocationClient = new AMapLocationClient(mContext);
@@ -173,7 +173,7 @@ public class MapUtil{
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(5000);
+        mLocationOption.setInterval(2000);
         //定位超时时间
         mLocationOption.setHttpTimeOut(20000);
         //设置是否强制刷新WIFI，默认为true，强制刷新。
@@ -182,7 +182,7 @@ public class MapUtil{
         mLocationOption.setNeedAddress(true);
         //获取一次定位结果：
         //该方法默认为false。
-        mLocationOption.setOnceLocation(true);
+        mLocationOption.setOnceLocation(firstlocation);
         //设置定位参数
         mapLocationClient.setLocationOption(mLocationOption);
         // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，

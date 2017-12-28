@@ -36,15 +36,16 @@ public class LookBigPictureActivity extends BaseActivity {
     private ArrayList<View> vList;
     private ArrayList<PicEntity> mList=new ArrayList<PicEntity>();
     private int index=0;
+    private boolean isLoading=false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isLoading=getIntent().getBooleanExtra("isload",false);
         init();
     }
 
     private void init() {
         index=getIntent().getIntExtra("index",0);
-        Log.d("=======--",new Gson().toJson((ArrayList<PicEntity>) getIntent().getSerializableExtra("list"))+"");
         mList.addAll((ArrayList<PicEntity>) getIntent().getSerializableExtra("list"));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +57,12 @@ public class LookBigPictureActivity extends BaseActivity {
         for (int i=0;i<mList.size();i++){
             ImageView imageView=new ImageView(this);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            x.image().bind(imageView, BaseURL.BASE_IMAGE_URI+mList.get(i).getFpicture(), ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
+            if (isLoading){
+                x.image().bind(imageView, BaseURL.BASE_IMAGE_URI+mList.get(i).getPicture(), ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
+            }else {
+                x.image().bind(imageView, BaseURL.BASE_IMAGE_URI+mList.get(i).getFpicture(), ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
+            }
             vList.add(imageView);
-            Log.d("巨鲸===",BaseURL.BASE_IMAGE_URI+mList.get(i).getFpicture());
         }
 
         bannerview.setViewList(vList);

@@ -146,21 +146,19 @@ public class MainActivity extends BaseActivity {
     private Timer mTimer = null;
     private TimerTask mTimerTask = null;
     private static final int TIMER_CHANGE = 0;
-    private Handler mHandler=new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what==TIMER_CHANGE){
-                getCarLocation();
+            if (msg.what == TIMER_CHANGE) {
+                getLocaation();
             }
-
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         init();
         initRefresh();
         getPersonal();
@@ -168,14 +166,13 @@ public class MainActivity extends BaseActivity {
         getNewOrder();
         getVersion();
         registerMessageReceiver();
-//        getIntents();
-        startTimer();
+        getCarLocation();
     }
 
-    private void getIntents(){
-        String type=getIntent().getStringExtra(Constants.EXTRA_BUNDLE);
-        Intent i=new Intent();
-        if (type!=null){
+    private void getIntents() {
+        String type = getIntent().getStringExtra(Constants.EXTRA_BUNDLE);
+        Intent i = new Intent();
+        if (type != null) {
             switch (type) {
                 case "2":
                 case "6":
@@ -192,7 +189,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void startTimer(){
+    private void startTimer() {
         if (mTimer == null) {
             mTimer = new Timer();
         }
@@ -206,10 +203,11 @@ public class MainActivity extends BaseActivity {
             };
         }
 
-        if(mTimer != null && mTimerTask != null )
-            mTimer.schedule(mTimerTask, 0, 1000*60*5);
+        if (mTimer != null && mTimerTask != null)
+            mTimer.schedule(mTimerTask, 0, 1000 * 60 * 5);
     }
-    private void stopTimer(){
+
+    private void stopTimer() {
 
         if (mTimer != null) {
             mTimer.cancel();
@@ -221,24 +219,26 @@ public class MainActivity extends BaseActivity {
             mTimerTask = null;
         }
     }
-    public void sendMessage(int id){
+
+    public void sendMessage(int id) {
         if (mHandler != null) {
-            Message message =new Message();
-            message.what=id;
+            Message message = new Message();
+            message.what = id;
             mHandler.sendMessage(message);
         }
     }
-    //获取车辆位置
-    private void getCarLocation(){
-        ArrayList<String> list=new ArrayList<String>();
+
+    //获取车辆位置 检测北斗是否异常
+    private void getCarLocation() {
+        ArrayList<String> list = new ArrayList<String>();
         list.add(SessionManager.getInstance().getUser().getFplateno());
 //        list.add("陕A44725");
-        XUtil.GetPing(BaseURL.GETLOCATION_INAPP,list,new ResponseCallBack<BaseBean>(){
+        XUtil.GetPing(BaseURL.GETLOCATION_INAPP, list, new ResponseCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean result) {
                 super.onSuccess(result);
-                if (!result.isSuccess()){
-                    getLocaation();
+                if (!result.isSuccess()) {
+                    startTimer();
                 }
             }
 
@@ -249,37 +249,38 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    private void getLocaation(){
+    private void getLocaation() {
         MapUtil.getInstance(this).Location(new AMapLocationListener() {
             @SuppressLint("NewApi")
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
-                    if (mlatitude==0 || mlongitude==0){
-                        submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
-                    }else {
+                    if (mlatitude == 0 || mlongitude == 0) {
+                        submitGps(aMapLocation.getLongitude() + "", aMapLocation.getLatitude() + "", aMapLocation.getAddress());
+                    } else {
                         Dis(aMapLocation);
                     }
                 }
             }
-        });
+        },false);
     }
 
     //计算两经纬度之间的距离
-    private void Dis(AMapLocation aMapLocation){
-        Double dis=MapUtil.getDistance(mlongitude,mlatitude,aMapLocation.getLongitude(),aMapLocation.getLatitude());
-        if (dis>1000){
-            submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
+    private void Dis(AMapLocation aMapLocation) {
+        Double dis = MapUtil.getDistance(mlongitude, mlatitude, aMapLocation.getLongitude(), aMapLocation.getLatitude());
+        if (dis > 1000) {
+            submitGps(aMapLocation.getLongitude() + "", aMapLocation.getLatitude() + "", aMapLocation.getAddress());
         }
     }
-    private void submitGps(String lon,String lat,String address){
+
+    private void submitGps(String lon, String lat, String address) {
         //SUBMIT_GPS
-        Map<String ,Object> map=new HashMap <String ,Object>();
-        map.put("fdriverid",SessionManager.getInstance().getUser().getFid());
-        map.put("wgLon",lon);
-        map.put("wgLat",lat);
-        map.put("address",address);
-        XUtil.PostJsonObj(BaseURL.SUBMIT_GPS,map,new ResponseCallBack<BaseBean>(){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("fdriverid", SessionManager.getInstance().getUser().getFid());
+        map.put("wgLon", lon);
+        map.put("wgLat", lat);
+        map.put("address", address);
+        XUtil.PostJsonObj(BaseURL.SUBMIT_GPS, map, new ResponseCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean result) {
                 super.onSuccess(result);
@@ -324,15 +325,16 @@ public class MainActivity extends BaseActivity {
             return;
         }
         tv_orderNum.setText(getString(R.string.orderno) + entity.getFsendcarno());
-        tv_yunfei.setText(entity.getFshouldpay() + "");//
-        tv_youka.setText(entity.getFshouldpayOilcard() + "");//
-        tv_othershouru.setText(entity.getFotherin() + "");//
-        tv_otherkouchu.setText(entity.getFotherout() + "");//
-        tv_xianjin.setText(entity.getCash() + "");//
-        tv_zengsong.setText(entity.getFshouldreturnmoney() + "");//
-        tv_shouru.setText(entity.getFshouldpay() + entity.getFshouldreturnmoney()
-                - entity.getFotherin() - entity.getFotherout() + "");//
-        tv_remark.setText(entity.getPickcount() + getString(R.string.ti) + entity.getUnloadcount() + getString(R.string.xie));//运费
+        tv_yunfei.setText(entity.getFshouldpay()<=0?"0": entity.getFshouldpay()+"");
+        tv_youka.setText(entity.getFshouldpayOilcard()<=0?"0": entity.getFshouldpayOilcard() + "");//
+        tv_othershouru.setText(entity.getFotherin()<=0?"0": entity.getFotherin() + "");//
+        tv_otherkouchu.setText(entity.getFotherout()<=0?"0": entity.getFotherout() + "");//
+        tv_xianjin.setText(entity.getCash()<=0?"0": entity.getCash() + "");//
+        tv_zengsong.setText(entity.getFshouldreturnmoney()<=0?"0": entity.getFshouldreturnmoney() + "");//
+        double sr=entity.getFshouldpay() + entity.getFshouldreturnmoney()
+                - entity.getFotherin() - entity.getFotherout();
+        tv_shouru.setText(sr<=0?"0":sr + "");//
+        tv_remark.setText(entity.getPickcount() + getString(R.string.ti) + entity.getUnloadcount() + getString(R.string.xie1));//运费
         tv_start.setText(entity.getStart());//
         tv_end.setText(entity.getEnd());//
         //fvicecard
@@ -435,17 +437,63 @@ public class MainActivity extends BaseActivity {
                     num_msg.setVisibility(View.GONE);
                     break;
                 case R.id.tv_zhuanghuopic:
-
-                    Location(2);
+                    zhDo();
                     break;
                 case R.id.tv_signpic:
-
-                    Location(3);
+                    qsDo();
                     break;
                 case R.id.tv_qiandao:
-                    Location(1);
+                    qdaoDo();
                     break;
             }
+        }
+    }
+    //签到操作
+    private void qdaoDo(){
+     if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat==0 || ClientApp.lng==0){
+         MapUtil.getInstance(this).Location(new AMapLocationListener() {
+             @SuppressLint("NewApi")
+             @Override
+             public void onLocationChanged(AMapLocation aMapLocation) {
+                 if (aMapLocation != null && !TextUtils.isEmpty(aMapLocation.getAdCode())) {
+                     qiandao(aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                 }
+             }
+         },true);
+     }else {
+         qiandao(ClientApp.adCode, ClientApp.lat, ClientApp.lng);
+     }
+    }
+    //装货操作
+    private void zhDo(){
+        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat==0 || ClientApp.lng==0){
+            MapUtil.getInstance(this).Location(new AMapLocationListener() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onLocationChanged(AMapLocation aMapLocation) {
+                    if (aMapLocation != null && !TextUtils.isEmpty(aMapLocation.getAdCode())) {
+                        Task(1, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                    }
+                }
+            },true);
+        }else {
+            Task(1, ClientApp.adCode, ClientApp.lat, ClientApp.lng);
+        }
+    }
+    //签收操作
+    private void qsDo(){
+        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat==0 || ClientApp.lng==0){
+            MapUtil.getInstance(this).Location(new AMapLocationListener() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onLocationChanged(AMapLocation aMapLocation) {
+                    if (aMapLocation != null && !TextUtils.isEmpty(aMapLocation.getAdCode())) {
+                        Task(2, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                    }
+                }
+            },true);
+        }else {
+            Task(2, ClientApp.adCode, ClientApp.lat, ClientApp.lng);
         }
     }
 
@@ -473,6 +521,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void getNewOrder() {
+        dialog.setLoading_text("加载中请稍后...");
         dialog.showDialog();
         XUtil.Post(BaseURL.SENCARORDERINFO, new ArrayList<String>(), SessionManager.getInstance().getUser().getWebtoken(), new ResponseCallBack<NewOrderInfoBean>() {
             @Override
@@ -481,10 +530,10 @@ public class MainActivity extends BaseActivity {
                 springview.onFinishFreshAndLoad();
                 dialog.dissDialog();
                 if (result.isSuccess()) {
-                    ArrayList<NewOrderInfoEntity> list=result.getObj();
-                    if (list==null || list.size()<1){
+                    ArrayList<NewOrderInfoEntity> list = result.getObj();
+                    if (list == null || list.size() < 1) {
                         isHasData(false);
-                    }else {
+                    } else {
                         entity = result.getObj().get(0);
                         isHasData(true);
                     }
@@ -537,51 +586,6 @@ public class MainActivity extends BaseActivity {
         }
         return false;
     }
-
-    //1签到 2装货拍照3签收拍照
-    private void getLocation(final int type) {
-        MapUtil.getInstance(this).Location(new AMapLocationListener() {
-            @SuppressLint("NewApi")
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation != null) {
-                    if (type == 1) {
-                        qiandao(aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
-                    }
-                    if (type == 2) {
-                        Task(1, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
-                    }
-                    if (type == 3) {
-                        Task(2, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
-                    }
-                    if (type==4){
-                        submitGps(aMapLocation.getLongitude()+"",aMapLocation.getLatitude()+"",aMapLocation.getAddress());
-                    }
-                } else {
-                    //定位失败提示
-                    final PromptDialog dialog = new PromptDialog(MainActivity.this);
-                    dialog.setTitle(getString(R.string.prompt));
-                    dialog.setMsg(getString(R.string.plsase_look_location_or_network));
-                    dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
-                        @Override
-                        public void onClick() {
-                            dialog.dissDialog();
-
-                        }
-                    });
-                    dialog.setOnClick2(getString(R.string.cancal), new PromptDialog.Btn2OnClick() {
-                        @Override
-                        public void onClick() {
-                            dialog.dissDialog();
-                        }
-                    });
-                    dialog.create();
-                    dialog.showDialog();
-                }
-            }
-        });
-    }
-
     /**
      * 签到
      */
@@ -599,7 +603,6 @@ public class MainActivity extends BaseActivity {
             public void onSuccess(BaseBean result) {
                 super.onSuccess(result);
                 dialog.dissDialog();
-
                 showSignInDialog(result);
             }
 
@@ -619,7 +622,6 @@ public class MainActivity extends BaseActivity {
         SignInDialog dialog = new SignInDialog(this);
         dialog.setMsg(result.getMsg());
         dialog.setImg(result.isSuccess() ? R.drawable.icon_sign_success : R.drawable.icon_sign_fail);
-        dialog.create();
         dialog.showDialog();
     }
 
@@ -627,7 +629,6 @@ public class MainActivity extends BaseActivity {
      * @param type 1装货拍照 2 签收拍照
      */
     private void Task(final int type, final String addressno, final double latitude, final double longitude) {
-        //TASKSTATE
         ArrayList<String> list = new ArrayList<String>();
         list.add(entity.getFid() + "&" + type);
         dialog.showDialog();
@@ -644,8 +645,7 @@ public class MainActivity extends BaseActivity {
                         intent.putExtra("latitude", latitude);
                         intent.putExtra("longitude", longitude);
                         startActivity(intent);
-                    }
-                    if (type == 2) {
+                    } else if (type == 2) {
                         intent.setClass(MainActivity.this, SignPicActivity.class);
                         intent.putExtra("ownsendcarid", entity.getOwnsendcarid());
                         intent.putExtra("addressno", addressno);
@@ -653,7 +653,6 @@ public class MainActivity extends BaseActivity {
                         intent.putExtra("longitude", longitude);
                         startActivity(intent);
                     }
-
                 } else {
                     UHelper.showToast(MainActivity.this, result.getMsg());
                 }
@@ -830,22 +829,6 @@ public class MainActivity extends BaseActivity {
         }
         startActivity(intent);
     }
-
-
-    //定位权限
-    private void Location(int type) {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    Constants.MY_PERMISSIONS_REQUEST_CALL_LOCATION);
-        } else {
-            getLocation(type);
-        }
-    }
-
     @SuppressLint("NewApi")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -972,7 +955,7 @@ public class MainActivity extends BaseActivity {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }
                 }
-                if (ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())){
+                if (ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 //                    num_msg.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.babuwyt.siji.R;
@@ -31,7 +32,7 @@ public class LookAddressListAdapter extends RecyclerView.Adapter<LookAddressList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        LookAddressEntity entity=mList.get(position);
+        final LookAddressEntity entity=mList.get(position);
         if (entity.getFromto().equalsIgnoreCase("FROM")){
             holder.tv_address_type.setText(R.string.tihuodi);
         }else {
@@ -39,6 +40,15 @@ public class LookAddressListAdapter extends RecyclerView.Adapter<LookAddressList
         }
         holder.tv_address.setText(entity.getSsq()+entity.getFaddress());
         holder.tv_link.setText(entity.getFlinkman()+"\t\t"+entity.getFphone());
+
+        holder.image_callphone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (callPhone!=null){
+                    callPhone.call(entity.getFphone());
+                }
+            }
+        });
     }
 
     @Override
@@ -51,12 +61,21 @@ public class LookAddressListAdapter extends RecyclerView.Adapter<LookAddressList
         TextView tv_address_type;
         TextView tv_name;
         TextView tv_link;
+        ImageView image_callphone;
         public ViewHolder(View itemView) {
             super(itemView);
             tv_address=itemView.findViewById(R.id.tv_address);
             tv_address_type=itemView.findViewById(R.id.tv_address_type);
             tv_name=itemView.findViewById(R.id.tv_name);
             tv_link=itemView.findViewById(R.id.tv_link);
+            image_callphone=itemView.findViewById(R.id.image_callphone);
         }
+    }
+    public interface CallPhone{
+        void call(String numbuter);
+    }
+    private CallPhone callPhone;
+    public void setCallPhone(CallPhone callPhone){
+        this.callPhone=callPhone;
     }
 }

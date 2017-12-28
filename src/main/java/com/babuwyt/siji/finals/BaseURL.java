@@ -7,6 +7,7 @@ package com.babuwyt.siji.finals;
 public class BaseURL {
         public static final String BASE_URL = "http://www.babuwyt.com:8080/tmsapi/";
 //        public static final String BASE_URL = "http://192.168.2.41:8080/tmsapi/";
+//        public static final String BASE_URL = "http://192.168.2.71:8091/";
     //    public static final String BASE_URL = "http://123.206.75.242:8090/tmsapi/";
 //        public static final String BASE_URL = "http://123.206.75.242:8090/tmsapi/";
     //    private static final String BASE_URL = "http://192.168.2.17:8080/api/";

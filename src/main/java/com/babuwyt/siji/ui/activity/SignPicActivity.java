@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
@@ -24,6 +25,7 @@ import com.babuwyt.siji.utils.TencentYunUtils;
 import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.utils.request.CommonCallback.ResponseCallBack;
 import com.babuwyt.siji.utils.request.XUtil;
+import com.google.gson.Gson;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -160,7 +162,7 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
             String photoPath=data.getStringExtra("photo");
 //            upload(photoPath,signnum);
             PicEntity entity = new PicEntity();
-            entity.setFpicture(photoPath);
+            entity.setPicture(photoPath);
             entity.setfSignNo(signnum);
             mList.add(entity);
             mAdapter.notifyDataSetChanged();
@@ -181,7 +183,7 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
         ArrayList<String> pics=new ArrayList<String>();
         ArrayList<String> fSignNo=new ArrayList<String>();
         for (PicEntity entity:mList){
-            pics.add(entity.getFpicture());
+            pics.add(entity.getPicture());
             fSignNo.add(entity.getfSignNo());
         }
         Map<String,Object> map=new HashMap<String, Object>();
@@ -193,6 +195,7 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
         map.put("fSignNo",fSignNo);
         map.put("fstate",2);
         dialog.showDialog();
+        Log.d("上传三叔==",new Gson().toJson(map));
         XUtil.PostJsonObj(BaseURL.PUSH_INSERT, map, SessionManager.getInstance().getUser().getWebtoken(), new ResponseCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean result) {

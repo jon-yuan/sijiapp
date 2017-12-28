@@ -108,11 +108,9 @@ public class HistoryOrderDetailsActivity extends BaseActivity {
             tv_state.setText(getString(R.string.jiesuanyunfei));
         }if (entity.getFsettlestate()==3){
             tv_state.setText(getString(R.string.yijiesuan));
-        }if (entity.getFsettlestate()==4){
-            tv_state.setText(getString(R.string.weidenglu));
         }
         tv_orderNum.setText(entity.getFsendcarno());
-        tv_luxian.setText(entity.getFshipmentarea()+"-"+entity.getFunloadarea());
+        tv_luxian.setText(entity.getFshipmentarea()+" -- "+entity.getFunloadarea());
         tv_tihuoshijian.setText(DateUtils.timedate(entity.getFshipmenttime()));
         tv_xiehuoshijian.setText(DateUtils.timedate(entity.getFunloadtime()));
         tv_remark.setText(entity.getFremark());

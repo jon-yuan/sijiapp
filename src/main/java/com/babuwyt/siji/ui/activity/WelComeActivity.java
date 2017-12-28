@@ -86,7 +86,7 @@ public class WelComeActivity extends BaseActivity{
             }else {
                 PromptDialog dialog = new PromptDialog(this);
                 dialog.setTitle(getString(R.string.prompt));
-                dialog.setMsg(getString(R.string.plsase_shouquan_sdcard));
+
                 String str="";
                 if (grantResults[0]!=PackageManager.PERMISSION_GRANTED){
                     str=getString(R.string.plsase_shouquan_sdcard);
@@ -97,13 +97,13 @@ public class WelComeActivity extends BaseActivity{
                 if (grantResults[0]!=PackageManager.PERMISSION_GRANTED && grantResults[1]!=PackageManager.PERMISSION_GRANTED){
                     str=getString(R.string.plsase_shouquan_location_sdcard);
                 }
+                dialog.setMsg(str);
                 dialog.setCanceledTouchOutside(false);
                 dialog.setOnClick1(getString(R.string.queding), new PromptDialog.Btn1OnClick() {
                     @Override
                     public void onClick() {
                         Intent intent =  new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
-                        finish();
+                        startActivityForResult(intent,0);
 
                     }
                 });
@@ -119,5 +119,13 @@ public class WelComeActivity extends BaseActivity{
 
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==0){
+            storageCard();
+        }
     }
 }

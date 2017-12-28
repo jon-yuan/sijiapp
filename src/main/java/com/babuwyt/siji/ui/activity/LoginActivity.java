@@ -117,6 +117,7 @@ public class LoginActivity extends BaseActivity {
 
         ArrayList<String> list=new ArrayList<>();
         list.add(et_phoneNum.getText().toString().trim()+"");
+        dialog.setLoading_text(getString(R.string.loading_login));
         dialog.showDialog();
         XUtil.GetPing(BaseURL.GETA_UTNCODE, list, new ResponseCallBack<UserInfoBean>() {
             @Override

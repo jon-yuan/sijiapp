@@ -39,11 +39,11 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final HistoryOrderItemEntity entity=mList.get(position);
-        holder.time.setText(DateUtils.timedate(entity.getFshipmenttime())+"-"+ DateUtils.timedate(entity.getFunloadtime()));
+        holder.time.setText(DateUtils.timedate2(entity.getFshipmenttime())+" -- "+ DateUtils.timedate2(entity.getFunloadtime()));
         holder.tv_yundanhao.setText(entity.getFsendcarno());
-        holder.tv_luxian.setText(entity.getFshipmentarea()+"-"+entity.getFunloadarea());
-        holder.tv_zengsong.setText(entity.getFgiving()==null?"0":entity.getFgiving());
-        holder.tv_shouru.setText(entity.getFtotal()==null?"0":entity.getFtotal());
+        holder.tv_luxian.setText(entity.getFshipmentarea()+" -- "+entity.getFunloadarea());
+        holder.tv_zengsong.setText(entity.getFgiving()==null || entity.getFgiving().equalsIgnoreCase("0.0")?"0":entity.getFgiving());
+        holder.tv_shouru.setText(entity.getFtotal()==null || entity.getFtotal().equalsIgnoreCase("0.0")?"0":entity.getFtotal());
         holder.tv_lookpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

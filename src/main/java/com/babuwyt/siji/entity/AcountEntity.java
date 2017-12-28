@@ -10,58 +10,58 @@ import org.xutils.http.annotation.HttpResponse;
  */
 @HttpResponse(parser = JsonResponseParser.class)
 public class AcountEntity {
-    private double ftotal;
-    private double foilcard;//油卡金额
-    private double ftransport;//现金金额
-    private double fgiving;//赠送
-    private double fotherin;//其他收入
-    private double fotherout;//其他扣除
+    private String ftotal;
+    private String foilcard;//油卡金额
+    private String ftransport;//现金金额
+    private String fgiving;//赠送
+    private String fotherin;//其他收入
+    private String fotherout;//其他扣除
 
-    public double getFtotal() {
+    public String getFtotal() {
         return ftotal;
     }
 
-    public void setFtotal(double ftotal) {
+    public void setFtotal(String ftotal) {
         this.ftotal = ftotal;
     }
 
-    public double getFoilcard() {
+    public String getFoilcard() {
         return foilcard;
     }
 
-    public void setFoilcard(double foilcard) {
+    public void setFoilcard(String foilcard) {
         this.foilcard = foilcard;
     }
 
-    public double getFtransport() {
+    public String getFtransport() {
         return ftransport;
     }
 
-    public void setFtransport(double ftransport) {
+    public void setFtransport(String ftransport) {
         this.ftransport = ftransport;
     }
 
-    public double getFgiving() {
+    public String getFgiving() {
         return fgiving;
     }
 
-    public void setFgiving(double fgiving) {
+    public void setFgiving(String fgiving) {
         this.fgiving = fgiving;
     }
 
-    public double getFotherin() {
+    public String getFotherin() {
         return fotherin;
     }
 
-    public void setFotherin(double fotherin) {
+    public void setFotherin(String fotherin) {
         this.fotherin = fotherin;
     }
 
-    public double getFotherout() {
+    public String getFotherout() {
         return fotherout;
     }
 
-    public void setFotherout(double fotherout) {
+    public void setFotherout(String fotherout) {
         this.fotherout = fotherout;
     }
 }

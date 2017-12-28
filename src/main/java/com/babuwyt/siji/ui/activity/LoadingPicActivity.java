@@ -42,6 +42,7 @@ import com.babuwyt.siji.utils.UHelper;
 import com.babuwyt.siji.utils.request.CommonCallback.ResponseCallBack;
 import com.babuwyt.siji.utils.request.XUtil;
 import com.babuwyt.siji.views.ImgCheckDialog;
+import com.google.gson.Gson;
 import com.tencent.cos.model.COSRequest;
 import com.tencent.cos.model.COSResult;
 import com.tencent.cos.task.listener.IUploadTaskListener;
@@ -119,6 +120,7 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
             public void onSuccess(PicBean result) {
                 super.onSuccess(result);
                 dialog.dissDialog();
+                Log.d("获取上传的照片==",new Gson().toJson(result));
                 if (result.isSuccess()) {
                     mList.clear();
                     mList.addAll(result.getObj());
@@ -229,7 +231,7 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
         if (resultCode == Activity.RESULT_OK && requestCode == 2) {
             final String path = data.getStringExtra("PHOTO");
             final PicEntity entity = new PicEntity();
-            entity.setFpicture(path);
+            entity.setPicture(path);
             mList.add(entity);
             mAdapter.notifyDataSetChanged();
         }
@@ -238,38 +240,12 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
 //            x.image().bind(img_idcardimg2, path, ImageOptions.options(ImageView.ScaleType.FIT_CENTER));
 //            getPath(path);
             final PicEntity entity = new PicEntity();
-            entity.setFpicture(path);
+            entity.setPicture(path);
             mList.add(entity);
             mAdapter.notifyDataSetChanged();
         }
     }
 
-    //获取到照片地址 进行压缩后上传
-    private void getPath(String path) {
-        srcPath = path;
-
-        try {
-            //大于200kb 在进行压缩
-            if (CameraUtils.getFileSize(new File(path)) > 512000) {
-                File compressedImageFile = null;
-                try {
-                    compressedImageFile = new Compressor(LoadingPicActivity.this).compressToFile(new File(path));
-                    srcPath = compressedImageFile.getPath();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("压缩已成", e + "");
-        }
-        upload(srcPath);
-//        final PicEntity entity = new PicEntity();
-//        entity.setFpicture(srcPath);
-//        mList.add(entity);
-//        mAdapter.notifyDataSetChanged();
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -302,49 +278,6 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-    /**
-     * 上传图片
-     *
-     * @param srcPath
-     */
-    public void upload(final String srcPath) {
-        if (TextUtils.isEmpty(srcPath)) {
-            return;
-        }
-
-        final String cosPath = "SiJi/wyt" + System.currentTimeMillis() / 1000 + ".jpg";
-
-        dialog.showDialog();
-        TencentYunUtils.upload(this, srcPath, cosPath, new IUploadTaskListener() {
-            @Override
-            public void onProgress(COSRequest cosRequest, long l, long l1) {
-            }
-
-            @Override
-            public void onCancel(COSRequest cosRequest, COSResult cosResult) {
-                dialog.dissDialog();
-            }
-
-            @Override
-            public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
-                dialog.dissDialog();
-                UHelper.showToast(LoadingPicActivity.this, "上传成功！！！");
-                final PicEntity entity = new PicEntity();
-                entity.setFpicture(cosPath);
-                mList.add(entity);
-                Log.d("", "shangchuanchenggong");
-                mAdapter.notifyDataSetChanged();
-                Log.d("", "shangchuanchenggongq111");
-            }
-
-            @Override
-            public void onFailed(COSRequest cosRequest, COSResult cosResult) {
-                dialog.dissDialog();
-                UHelper.showToast(LoadingPicActivity.this, "上传失败！！！");
-            }
-        });
-    }
     /**
      * 删除图片
      *
@@ -370,8 +303,9 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
         }
         ArrayList<String> pics = new ArrayList<>();
         for (PicEntity entity : mList) {
-            pics.add(entity.getFpicture());
+            pics.add(entity.getPicture());
         }
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("addressno", addressno);
         map.put("latitude", latitude);
@@ -390,7 +324,6 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
                 }
                 UHelper.showToast(LoadingPicActivity.this, result.getMsg());
             }
-
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
@@ -398,6 +331,4 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
             }
         });
     }
-
-
 }
