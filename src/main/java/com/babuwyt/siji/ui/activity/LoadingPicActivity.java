@@ -93,6 +93,7 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
     }
 
     private void init() {
+        toolbar.setTitle(getString(R.string.zhuanghuozhaopian));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +121,6 @@ public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapte
             public void onSuccess(PicBean result) {
                 super.onSuccess(result);
                 dialog.dissDialog();
-                Log.d("获取上传的照片==",new Gson().toJson(result));
                 if (result.isSuccess()) {
                     mList.clear();
                     mList.addAll(result.getObj());

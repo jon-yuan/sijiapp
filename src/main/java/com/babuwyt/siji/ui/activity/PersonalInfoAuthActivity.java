@@ -176,7 +176,7 @@ public class PersonalInfoAuthActivity extends BaseActivity {
             return;
         }
         if (!UHelper.isCar(tv_carnum.getText().toString())) {
-            UHelper.showToast(this, getString(R.string.please_input_carnum));
+            UHelper.showToast(this, getString(R.string.please_input_carnum_success));
             return;
         }
         if (TextUtils.isEmpty(ftrucktypeid)) {

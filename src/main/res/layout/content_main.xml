@@ -335,16 +335,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tv_lookaddress"
-                            style="@style/TextViewStyle"
 
+                        <TextView
+                            android:id="@+id/tv_binding"
+                            style="@style/TextViewStyle"
                             android:background="@drawable/button_shape"
                             android:ellipsize="end"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="3dp"
                             android:singleLine="true"
-                            android:text="@string/chakantixiexiangqing"
+                            android:text="@string/binding_youka"
                             android:textColor="@color/white"
                             android:textSize="11sp" />
                         <Space
@@ -356,11 +356,22 @@
                             style="@style/TextViewStyle"
                             android:background="@drawable/button_shape"
                             android:ellipsize="end"
-                            android:visibility="invisible"
+                            android:visibility="gone"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="3dp"
                             android:singleLine="true"
                             android:text="@string/chakanqianshoudan"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+                        <TextView
+                            android:id="@+id/tv_lookaddress"
+                            style="@style/TextViewStyle"
+                            android:background="@drawable/button_shape"
+                            android:ellipsize="end"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp"
+                            android:singleLine="true"
+                            android:text="@string/chakantixiexiangqing"
                             android:textColor="@color/white"
                             android:textSize="11sp" />
                     </LinearLayout>
@@ -433,13 +444,13 @@
                             android:layout_weight="1" />
 
                         <TextView
-                            android:id="@+id/tv_binding"
+                            android:id="@+id/tv_zhuanghuopic"
                             style="@style/TextViewStyle"
                             android:width="100dp"
                             android:background="@drawable/button_shape"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="绑定油卡"
+                            android:text="@string/zhuanghuopaizhao"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -453,13 +464,13 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tv_zhuanghuopic"
+                            android:id="@+id/tv_xiehuopic"
                             style="@style/TextViewStyle"
                             android:width="100dp"
                             android:background="@drawable/button_shape"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="@string/zhuanghuopaizhao"
+                            android:text="@string/xiehuopaizhao"
                             android:textColor="@color/white" />
 
                         <Space

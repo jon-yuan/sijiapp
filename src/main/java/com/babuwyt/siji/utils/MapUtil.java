@@ -173,7 +173,7 @@ public class MapUtil{
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(2000);
+        mLocationOption.setInterval(5000);
         //定位超时时间
         mLocationOption.setHttpTimeOut(20000);
         //设置是否强制刷新WIFI，默认为true，强制刷新。

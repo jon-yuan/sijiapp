@@ -15,7 +15,16 @@ public class PicEntity implements Serializable {
     private String picture;
     private String fpicture;
     private int type;
+    private int fstate;
     private String fSignNo;
+
+    public int getFstate() {
+        return fstate;
+    }
+
+    public void setFstate(int fstate) {
+        this.fstate = fstate;
+    }
 
     public String getFpicture() {
         return fpicture;

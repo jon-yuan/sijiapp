@@ -5,9 +5,10 @@ package com.babuwyt.siji.finals;
  */
 
 public class BaseURL {
-        public static final String BASE_URL = "http://www.babuwyt.com:8080/tmsapi/";
+//        public static final String BASE_URL = "http://www.babuwyt.com:8080/tmsapi/";
+//        public static final String BASE_URL = "http://192.168.2.92:8080/tmsapi/";
 //        public static final String BASE_URL = "http://192.168.2.41:8080/tmsapi/";
-//        public static final String BASE_URL = "http://192.168.2.71:8091/";
+        public static final String BASE_URL = "http://192.168.2.71:8091/";
     //    public static final String BASE_URL = "http://123.206.75.242:8090/tmsapi/";
 //        public static final String BASE_URL = "http://123.206.75.242:8090/tmsapi/";
     //    private static final String BASE_URL = "http://192.168.2.17:8080/api/";
@@ -84,6 +85,7 @@ public class BaseURL {
      * 装货拍照上传
      */
     public static final String PUSH_INSERT = BASE_URL + "sendcarorderinfo/loadPicture/insert";
+    public static final String PUSH_INSERTS = BASE_URL + "sendcarorderinfo/loadPicture/inserts";
     /**
      * 个人信息认证
      */

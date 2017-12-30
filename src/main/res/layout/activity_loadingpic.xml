@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/defautl_navigationbar_size"
-        app:title="@string/zhuangxiezhaopian"
+        app:title="@string/zhuanghuozhaopian"
         app:navigationIcon="@drawable/goback_black"/>
     <View
         android:layout_width="match_parent"

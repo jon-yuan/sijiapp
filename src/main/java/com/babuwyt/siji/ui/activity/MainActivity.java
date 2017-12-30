@@ -130,6 +130,8 @@ public class MainActivity extends BaseActivity {
     TextView tv_qiandao;
     @ViewInject(R.id.tv_binding)
     TextView tv_binding;
+    @ViewInject(R.id.tv_xiehuopic)
+    TextView tv_xiehuopic;
     @ViewInject(R.id.springview)
     SpringView springview;
 
@@ -262,7 +264,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             }
-        },false);
+        }, false);
     }
 
     //计算两经纬度之间的距离
@@ -317,6 +319,8 @@ public class MainActivity extends BaseActivity {
             linear_layout.setVisibility(View.GONE);
             tv_orderNum.setVisibility(View.INVISIBLE);
             tv_no_dataview.setVisibility(View.VISIBLE);
+            dialog.dissDialog();
+            springview.onFinishFreshAndLoad();
         }
     }
 
@@ -325,15 +329,15 @@ public class MainActivity extends BaseActivity {
             return;
         }
         tv_orderNum.setText(getString(R.string.orderno) + entity.getFsendcarno());
-        tv_yunfei.setText(entity.getFshouldpay()<=0?"0": entity.getFshouldpay()+"");
-        tv_youka.setText(entity.getFshouldpayOilcard()<=0?"0": entity.getFshouldpayOilcard() + "");//
-        tv_othershouru.setText(entity.getFotherin()<=0?"0": entity.getFotherin() + "");//
-        tv_otherkouchu.setText(entity.getFotherout()<=0?"0": entity.getFotherout() + "");//
-        tv_xianjin.setText(entity.getCash()<=0?"0": entity.getCash() + "");//
-        tv_zengsong.setText(entity.getFshouldreturnmoney()<=0?"0": entity.getFshouldreturnmoney() + "");//
-        double sr=entity.getFshouldpay() + entity.getFshouldreturnmoney()
+        tv_yunfei.setText(entity.getFshouldpay() <= 0 ? "0" : entity.getFshouldpay() + "");
+        tv_youka.setText(entity.getFshouldpayOilcard() <= 0 ? "0" : entity.getFshouldpayOilcard() + "");//
+        tv_othershouru.setText(entity.getFotherin() <= 0 ? "0" : entity.getFotherin() + "");//
+        tv_otherkouchu.setText(entity.getFotherout() <= 0 ? "0" : entity.getFotherout() + "");//
+        tv_xianjin.setText(entity.getCash() <= 0 ? "0" : entity.getCash() + "");//
+        tv_zengsong.setText(entity.getFshouldreturnmoney() <= 0 ? "0" : entity.getFshouldreturnmoney() + "");//
+        double sr = entity.getFshouldpay() + entity.getFshouldreturnmoney()
                 - entity.getFotherin() - entity.getFotherout();
-        tv_shouru.setText(sr<=0?"0":sr + "");//
+        tv_shouru.setText(sr <= 0 ? "0" : sr + "");//
         tv_remark.setText(entity.getPickcount() + getString(R.string.ti) + entity.getUnloadcount() + getString(R.string.xie1));//运费
         tv_start.setText(entity.getStart());//
         tv_end.setText(entity.getEnd());//
@@ -345,7 +349,8 @@ public class MainActivity extends BaseActivity {
             tv_binding.setEnabled(false);
             tv_binding.setBackgroundResource(R.drawable.button_shape_gray);
         }
-
+        dialog.dissDialog();
+        springview.onFinishFreshAndLoad();
     }
 
 
@@ -385,7 +390,7 @@ public class MainActivity extends BaseActivity {
         tv_state.setText(Fdelet);
     }
 
-    @Event(value = {R.id.layout_msg, R.id.tv_looksignno, R.id.tv_qiandao, R.id.tv_signpic, R.id.tv_zhuanghuopic, R.id.look_pic, R.id.layout_topBtn, R.id.tv_othershourudetails, R.id.tv_otherkouchudetails, R.id.layout_qiang, R.id.tv_binding, R.id.tv_lookaddress})
+    @Event(value = {R.id.tv_xiehuopic, R.id.layout_msg, R.id.tv_looksignno, R.id.tv_qiandao, R.id.tv_signpic, R.id.tv_zhuanghuopic, R.id.look_pic, R.id.layout_topBtn, R.id.tv_othershourudetails, R.id.tv_otherkouchudetails, R.id.layout_qiang, R.id.tv_binding, R.id.tv_lookaddress})
     private void getE(View v) {
         if (state()) {
             switch (v.getId()) {
@@ -439,6 +444,9 @@ public class MainActivity extends BaseActivity {
                 case R.id.tv_zhuanghuopic:
                     zhDo();
                     break;
+                case R.id.tv_xiehuopic:
+                    xhDo();
+                    break;
                 case R.id.tv_signpic:
                     qsDo();
                     break;
@@ -448,25 +456,27 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
     //签到操作
-    private void qdaoDo(){
-     if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat==0 || ClientApp.lng==0){
-         MapUtil.getInstance(this).Location(new AMapLocationListener() {
-             @SuppressLint("NewApi")
-             @Override
-             public void onLocationChanged(AMapLocation aMapLocation) {
-                 if (aMapLocation != null && !TextUtils.isEmpty(aMapLocation.getAdCode())) {
-                     qiandao(aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
-                 }
-             }
-         },true);
-     }else {
-         qiandao(ClientApp.adCode, ClientApp.lat, ClientApp.lng);
-     }
+    private void qdaoDo() {
+        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat == 0 || ClientApp.lng == 0) {
+            MapUtil.getInstance(this).Location(new AMapLocationListener() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onLocationChanged(AMapLocation aMapLocation) {
+                    if (aMapLocation != null && !TextUtils.isEmpty(aMapLocation.getAdCode())) {
+                        qiandao(aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                    }
+                }
+            }, true);
+        } else {
+            qiandao(ClientApp.adCode, ClientApp.lat, ClientApp.lng);
+        }
     }
+
     //装货操作
-    private void zhDo(){
-        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat==0 || ClientApp.lng==0){
+    private void zhDo() {
+        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat == 0 || ClientApp.lng == 0) {
             MapUtil.getInstance(this).Location(new AMapLocationListener() {
                 @SuppressLint("NewApi")
                 @Override
@@ -475,14 +485,45 @@ public class MainActivity extends BaseActivity {
                         Task(1, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
                     }
                 }
-            },true);
-        }else {
+            }, true);
+        } else {
             Task(1, ClientApp.adCode, ClientApp.lat, ClientApp.lng);
         }
     }
+    //卸货拍照
+    private void xhDo() {
+        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat == 0 || ClientApp.lng == 0) {
+            MapUtil.getInstance(this).Location(new AMapLocationListener() {
+                @SuppressLint("NewApi")
+                @Override
+                public void onLocationChanged(AMapLocation aMapLocation) {
+                    if (aMapLocation != null && !TextUtils.isEmpty(aMapLocation.getAdCode())) {
+
+//                        Task(3, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                        // TODO: 2017/12/30 临时修改
+                        xiehuoDo(aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                    }
+                }
+            }, true);
+        } else {
+//            Task(3, ClientApp.adCode, ClientApp.lat, ClientApp.lng);
+            // TODO: 2017/12/30 临时修改
+            xiehuoDo(ClientApp.adCode, ClientApp.lat, ClientApp.lng);
+        }
+    }
+    //卸货拍照跳转
+    private void xiehuoDo(String adCode,double lat,double lng){
+        intent.setClass(MainActivity.this, XiehuoPicActivity.class);
+        intent.putExtra("ownsendcarid", entity.getOwnsendcarid());
+        intent.putExtra("addressno", adCode);
+        intent.putExtra("latitude", lat);
+        intent.putExtra("longitude", lng);
+        startActivity(intent);
+    }
+
     //签收操作
-    private void qsDo(){
-        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat==0 || ClientApp.lng==0){
+    private void qsDo() {
+        if (TextUtils.isEmpty(ClientApp.adCode) || ClientApp.lat == 0 || ClientApp.lng == 0) {
             MapUtil.getInstance(this).Location(new AMapLocationListener() {
                 @SuppressLint("NewApi")
                 @Override
@@ -491,19 +532,17 @@ public class MainActivity extends BaseActivity {
                         Task(2, aMapLocation.getAdCode(), aMapLocation.getLatitude(), aMapLocation.getLongitude());
                     }
                 }
-            },true);
-        }else {
+            }, true);
+        } else {
             Task(2, ClientApp.adCode, ClientApp.lat, ClientApp.lng);
         }
     }
 
-    //h
     private void getNum() {
         XUtil.GetPing(BaseURL.SELECT_SEND_CARORDERNUM, new ArrayList<String>(), SessionManager.getInstance().getUser().getWebtoken(), new ResponseCallBack<OrderNumBean>() {
             @Override
             public void onSuccess(OrderNumBean result) {
                 super.onSuccess(result);
-                springview.onFinishFreshAndLoad();
                 if (result.isSuccess()) {
                     tv_Num.setText(result.getObj() + "");
                     if (result.getObj() > 0) {
@@ -515,7 +554,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
-                springview.onFinishFreshAndLoad();
             }
         });
     }
@@ -527,8 +565,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSuccess(NewOrderInfoBean result) {
                 super.onSuccess(result);
-                springview.onFinishFreshAndLoad();
-                dialog.dissDialog();
+
                 if (result.isSuccess()) {
                     ArrayList<NewOrderInfoEntity> list = result.getObj();
                     if (list == null || list.size() < 1) {
@@ -540,6 +577,7 @@ public class MainActivity extends BaseActivity {
                 } else {
                     isHasData(false);
                 }
+
             }
 
             @Override
@@ -586,6 +624,7 @@ public class MainActivity extends BaseActivity {
         }
         return false;
     }
+
     /**
      * 签到
      */
@@ -653,6 +692,14 @@ public class MainActivity extends BaseActivity {
                         intent.putExtra("longitude", longitude);
                         startActivity(intent);
                     }
+//                    else if (type==3){
+//                        intent.setClass(MainActivity.this, XiehuoPicActivity.class);
+//                        intent.putExtra("ownsendcarid", entity.getOwnsendcarid());
+//                        intent.putExtra("addressno", addressno);
+//                        intent.putExtra("latitude", latitude);
+//                        intent.putExtra("longitude", longitude);
+//                        startActivity(intent);
+//                    }
                 } else {
                     UHelper.showToast(MainActivity.this, result.getMsg());
                 }
@@ -829,6 +876,7 @@ public class MainActivity extends BaseActivity {
         }
         startActivity(intent);
     }
+
     @SuppressLint("NewApi")
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

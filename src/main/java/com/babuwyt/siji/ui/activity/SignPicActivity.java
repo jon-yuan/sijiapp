@@ -195,7 +195,6 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
         map.put("fSignNo",fSignNo);
         map.put("fstate",2);
         dialog.showDialog();
-        Log.d("上传三叔==",new Gson().toJson(map));
         XUtil.PostJsonObj(BaseURL.PUSH_INSERT, map, SessionManager.getInstance().getUser().getWebtoken(), new ResponseCallBack<BaseBean>() {
             @Override
             public void onSuccess(BaseBean result) {
@@ -214,5 +213,4 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
             }
         });
     }
-
 }
