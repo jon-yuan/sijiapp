@@ -11,47 +11,100 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/defautl_navigationbar_size"
-        app:title="@string/qianshoudanbinding"
+        app:title="@string/qianshoudanpaizhao"
         app:navigationIcon="@drawable/goback_black"/>
-    <View
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/main_gray_line"/>
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/main_gray_line"/>
+            <ImageView
+                android:id="@+id/img_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/icon_paizhao_test"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="16dp"
+                    android:background="@color/black_333"/>
 
-    <ImageView
-        android:id="@+id/img_photo"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/icon_normal_pic_default"
-        android:layout_margin="20dp"
-        android:scaleType="fitCenter"/>
-    <LinearLayout
-        style="@style/LinelayoutStyle"
-        android:orientation="horizontal"
-        android:layout_margin="20dp"
-        android:paddingHorizontal="10dp"
-        android:background="@drawable/btn_gray_stork_shape">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_333"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="16sp"
+                    android:text="@string/qianshoudanhao"/>
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_sign_num"
-            style="@style/EditTextStyle"
-            android:layout_weight="1"
-            android:inputType="number"
-            android:hint="@string/please_input_sign_num"/>
+            <LinearLayout
+                style="@style/LinelayoutStyle"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingHorizontal="10dp">
 
-        <ImageView
-            android:id="@+id/img_saoyisao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@drawable/icon_saoyisao"/>
+                <TextView
+                    android:id="@+id/et_sign_num"
+                    style="@style/EditTextStyle"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:hint="@string/please_input_sign_num"/>
 
-    </LinearLayout>
-    <TextView
-        android:id="@+id/tv_commit"
-        style="@style/ButtonStyle"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/binding"
-        android:textSize="16sp"/>
+                <ImageView
+                    android:id="@+id/img_saoyisao"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/icon_sanjiao_black" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/main_gray_line"/>
+
+            <TextView
+                android:id="@+id/tv_saoyisao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/color_btn_blue"
+                android:text="@string/saomiaoerweima"/>
+            <TextView
+                android:id="@+id/tv_commit"
+                style="@style/ButtonStyle"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:text="@string/queding"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

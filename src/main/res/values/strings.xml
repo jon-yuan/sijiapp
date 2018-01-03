@@ -269,4 +269,12 @@
     <string name="zhuanghuozhaopian">装货照片</string>
     <string name="xiehuozhaopian">卸货照片</string>
     <string name="please_input_carnum_success">请输入正确的车牌号</string>
+    <string name="saomiaoerweimahuoqu">扫描二维码获取</string>
+    <string name="select">选择</string>
+    <string name="shoudongshuru">手动输入</string>
+    <string name="qianshoudanpaizhao">签收单拍照</string>
+    <string name="qianshoudanhao">签收单号</string>
+    <string name="please_load_xianshoudanzhaopian">请上传签收单照片</string>
+    <string name="saomiaoerweima">扫描二维码</string>
+    <string name="no_signno">没有签收单号</string>
 </resources>

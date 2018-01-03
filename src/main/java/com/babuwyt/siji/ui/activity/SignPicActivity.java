@@ -55,11 +55,13 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
     private String addressno=null;
     private double latitude=-1;
     private double longitude=-1;
+    private String fsendcarno;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fsendcarno=getIntent().getStringExtra("fsendcarno");
         ownsendcarid=getIntent().getStringExtra("ownsendcarid");
         addressno=getIntent().getStringExtra("addressno");
         latitude=getIntent().getDoubleExtra("latitude",-1);
@@ -148,6 +150,7 @@ public class SignPicActivity extends BaseActivity implements LoadingPicAdapter.D
             case R.id.action_add:
                 Intent intent=new Intent();
                 intent.setClass(this,SignPicTakePhotoActivity.class);
+                intent.putExtra("fsendcarno",fsendcarno);
                 startActivityForResult(intent,0);
                 break;
         }

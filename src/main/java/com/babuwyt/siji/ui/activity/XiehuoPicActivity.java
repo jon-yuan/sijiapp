@@ -295,7 +295,6 @@ public class XiehuoPicActivity extends BaseActivity implements LoadingPicAdapter
         map.put("ownerid", ownsendcarid);
         map.put("pciture", pics);
         map.put("fstate", 3);
-        Log.d("==参数==",new Gson().toJson(map));
         dialog.showDialog();
         XUtil.PostJsonObj(BaseURL.PUSH_INSERTS, map, SessionManager.getInstance().getUser().getWebtoken(), new ResponseCallBack<BaseBean>() {
             @Override

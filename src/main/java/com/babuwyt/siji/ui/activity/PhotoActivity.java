@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.babuwyt.siji.R;
@@ -73,8 +74,11 @@ public class PhotoActivity extends BaseActivity {
             switch (msg.what) {
                 case PHOTO_OK:
                     //关闭进度条
+//                    gridview.smoothScrollToPositionFromTop(mAdapter.getCount(),0);
                     mAdapter.notifyDataSetChanged();
                     mProgressDialog.dismiss();
+//                    gridview.setSelection(gridview.getBottom());
+
                     break;
             }
         }
@@ -275,27 +279,36 @@ public class PhotoActivity extends BaseActivity {
 //            if (view==null){
 //                holder=new ViewHolder();
 //                view= LayoutInflater.from(PhotoActivity.this).inflate(R.layout.adapter_item_photoactivity,null);
+//                x.view().inject(holder,view);
 //                view.setTag(holder);
 //            }else {
 //                holder= (ViewHolder) view.getTag();
 //            }
 
-
+////
             ImageView imageView=new ImageView(PhotoActivity.this);
             int width= DensityUtils.deviceWidthPX(PhotoActivity.this);
             int picWidth=(width-DensityUtils.dip2px(PhotoActivity.this,4))/3;
             imageView.setLayoutParams(new ViewGroup.LayoutParams(picWidth,picWidth));
             x.image().bind(imageView,photos.get(i));
             return imageView;
-        }
+//
+////            holder.relative_layout.getLayoutParams().height=picWidth;
+////            holder.relative_layout.getLayoutParams().width=picWidth;
+//            holder.relative_layout.setLayoutParams(new LinearLayout.LayoutParams(picWidth,picWidth));
+//
+//            x.image().bind(holder.image,photos.get(i));
+//            return view;
 
-//        class ViewHolder{
-//            @ViewInject(R.id.relative_layout)
-//            RelativeLayout relative_layout;
-//            @ViewInject(R.id.image)
-//            ImageView image;
-//            @ViewInject(R.id.image_select)
-//            ImageView image_select;
-//        }
+        }
+//
+        class ViewHolder{
+            @ViewInject(R.id.relative_layout)
+            RelativeLayout relative_layout;
+            @ViewInject(R.id.image)
+            ImageView image;
+            @ViewInject(R.id.image_select)
+            ImageView image_select;
+        }
     }
 }

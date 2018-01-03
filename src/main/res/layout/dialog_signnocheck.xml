@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_select"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="14sp"
+            android:textColor="@color/black_333"
+            android:text="@string/select"
+            android:background="@drawable/dialog_imgcheck_top_radio_5"
+            android:gravity="center"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/main_gray_line"/>
+        <TextView
+            android:id="@+id/tv_saoyisao"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="14sp"
+            android:background="@drawable/dialog_imgcheck_bottom_radio_5"
+            android:textColor="@color/black_333"
+            android:text="@string/saomiaoerweimahuoqu"
+            android:gravity="center"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/main_gray_line"/>
+        <TextView
+            android:id="@+id/tv_input"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:textSize="14sp"
+            android:textColor="@color/black_333"
+            android:text="@string/shoudongshuru"
+            android:background="@drawable/dialog_imgcheck_radio_5"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -258,7 +258,7 @@ public class MainActivity extends BaseActivity {
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
                     if (mlatitude == 0 || mlongitude == 0) {
-                        submitGps(aMapLocation.getLongitude() + "", aMapLocation.getLatitude() + "", aMapLocation.getAddress());
+                        submitGps(aMapLocation.getLongitude(), aMapLocation.getLatitude(), aMapLocation.getAddress());
                     } else {
                         Dis(aMapLocation);
                     }
@@ -271,11 +271,11 @@ public class MainActivity extends BaseActivity {
     private void Dis(AMapLocation aMapLocation) {
         Double dis = MapUtil.getDistance(mlongitude, mlatitude, aMapLocation.getLongitude(), aMapLocation.getLatitude());
         if (dis > 1000) {
-            submitGps(aMapLocation.getLongitude() + "", aMapLocation.getLatitude() + "", aMapLocation.getAddress());
+            submitGps(aMapLocation.getLongitude(), aMapLocation.getLatitude(), aMapLocation.getAddress());
         }
     }
 
-    private void submitGps(String lon, String lat, String address) {
+    private void submitGps(final double lon, final double lat, String address) {
         //SUBMIT_GPS
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("fdriverid", SessionManager.getInstance().getUser().getFid());
@@ -286,6 +286,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSuccess(BaseBean result) {
                 super.onSuccess(result);
+                if (result.isSuccess()){
+                    mlongitude=lon;
+                    mlatitude=lat;
+                }
             }
         });
     }
@@ -434,6 +438,7 @@ public class MainActivity extends BaseActivity {
                 case R.id.tv_looksignno:
                     intent.setClass(this, SignNoListActivity.class);
                     intent.putExtra("fownsendcarid", entity.getOwnsendcarid());
+                    intent.putExtra("fsendcarno", entity.getFsendcarno());
                     startActivity(intent);
                     break;
                 case R.id.layout_msg:
