@@ -13,6 +13,7 @@ import com.babuwyt.siji.adapter.LookPicAdapter;
 import com.babuwyt.siji.base.BaseActivity;
 import com.babuwyt.siji.base.SessionManager;
 import com.babuwyt.siji.bean.LookPicBean;
+import com.babuwyt.siji.entity.LookPicEntity;
 import com.babuwyt.siji.entity.PicEntity;
 import com.babuwyt.siji.finals.BaseURL;
 import com.babuwyt.siji.utils.UHelper;
@@ -70,7 +71,9 @@ public class LookPicActivity extends BaseActivity{
                 dialog.dissDialog();
                 if (result.isSuccess() && result.getObj()!=null && result.getObj().size()>0){
                     mList.clear();
-                    mList.addAll(result.getObj().get(0).getHttpSignPictureRess());
+                    for (int i=0;i<result.getObj().size();i++){
+                        mList.addAll(result.getObj().get(i).getHttpSignPictureRess());
+                    }
                     mAdapter.notifyDataSetChanged();
                 }else {
                     UHelper.showToast(LookPicActivity.this,result.getMsg());

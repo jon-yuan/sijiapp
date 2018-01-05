@@ -164,7 +164,7 @@ public class SettingActivity extends BaseActivity {
                 Environment.MEDIA_MOUNTED)) {
             // 获取SD卡的目录
             String path = Environment.getExternalStorageDirectory().getPath();
-            filepath = new File(path + File.separator + "apk" + File.separator + "siji.apk");//仅创建路径的File对象
+            filepath = new File(path + File.separator + "apksj" + File.separator + "release.apk");//仅创建路径的File对象
             if (!filepath.exists()) {
                 filepath.mkdir();//如果路径不存在就先创建路径
             }

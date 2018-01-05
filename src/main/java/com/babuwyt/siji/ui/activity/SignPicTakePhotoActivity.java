@@ -43,6 +43,7 @@ import com.babuwyt.siji.utils.request.XUtil;
 import com.babuwyt.siji.views.ImgCheckDialog;
 import com.babuwyt.siji.views.SignNoCheckDialog;
 import com.bigkoo.pickerview.OptionsPickerView;
+import com.google.gson.Gson;
 import com.tencent.cos.model.COSRequest;
 import com.tencent.cos.model.COSResult;
 import com.tencent.cos.task.listener.IUploadTaskListener;
@@ -118,7 +119,7 @@ public class SignPicTakePhotoActivity extends BaseActivity implements Toolbar.On
                     UHelper.showToast(this, getString(R.string.please_load_xianshoudanzhaopian));
                     return;
                 }
-                if (TextUtils.isEmpty(et_sign_num.getText().toString().trim())){
+                if (TextUtils.isEmpty(et_sign_num.getText().toString().trim())) {
                     UHelper.showToast(this, getString(R.string.please_input_sign_num));
                     return;
                 }
@@ -265,10 +266,13 @@ public class SignPicTakePhotoActivity extends BaseActivity implements Toolbar.On
         ArrayList<String> list = new ArrayList<String>();
         list.add(fsendcarno);
 //        list.add("D180103101730597002");
+        dialog.showDialog();
         XUtil.GetPing(BaseURL.SELECT_SIGNNO, list, SessionManager.getInstance().getUser().getWebtoken(), new ResponseCallBack<SignNoBean>() {
             @Override
             public void onSuccess(SignNoBean result) {
                 super.onSuccess(result);
+                Log.d("==签收单==", new Gson().toJson(result));
+                dialog.dissDialog();
                 if (result.isSuccess()) {
                     mList.clear();
                     mList.addAll(result.getObj());
@@ -278,13 +282,14 @@ public class SignPicTakePhotoActivity extends BaseActivity implements Toolbar.On
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
+                dialog.dissDialog();
             }
         });
     }
 
     private void showSing() {
-        if (mList.size()<=0){
-            UHelper.showToast(this,getString(R.string.no_signno));
+        if (mList.size() <= 0) {
+            UHelper.showToast(this, getString(R.string.no_signno));
             return;
         }
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {

@@ -438,7 +438,7 @@ public class MainActivity extends BaseActivity {
                 case R.id.tv_looksignno:
                     intent.setClass(this, SignNoListActivity.class);
                     intent.putExtra("fownsendcarid", entity.getOwnsendcarid());
-                    intent.putExtra("fsendcarno", entity.getFsendcarno());
+
                     startActivity(intent);
                     break;
                 case R.id.layout_msg:
@@ -695,6 +695,7 @@ public class MainActivity extends BaseActivity {
                         intent.putExtra("addressno", addressno);
                         intent.putExtra("latitude", latitude);
                         intent.putExtra("longitude", longitude);
+                        intent.putExtra("fsendcarno", entity.getFsendcarno());
                         startActivity(intent);
                     }
 //                    else if (type==3){
@@ -825,7 +826,7 @@ public class MainActivity extends BaseActivity {
                 Environment.MEDIA_MOUNTED)) {
             // 获取SD卡的目录
             String path = Environment.getExternalStorageDirectory().getPath();
-            filepath = new File(path + File.separator + "apk" + File.separator + "siji.apk");//仅创建路径的File对象
+            filepath = new File(path + File.separator + "apksj" + File.separator + "release.apk");//仅创建路径的File对象
             if (!filepath.exists()) {
                 filepath.mkdir();//如果路径不存在就先创建路径
             }
