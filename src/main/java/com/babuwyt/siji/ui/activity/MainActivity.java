@@ -276,6 +276,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void submitGps(final double lon, final double lat, String address) {
+        if (lon==0 || lat==0){
+            //当定位的经纬度为0的时候说明定位出现问题，所以不上传
+            return;
+        }
         //SUBMIT_GPS
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("fdriverid", SessionManager.getInstance().getUser().getFid());
@@ -822,14 +826,16 @@ public class MainActivity extends BaseActivity {
     private File filepath;
 
     private void DownLoadFile(String url) {
+        final String fileName = "release.apk";
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
             // 获取SD卡的目录
-            String path = Environment.getExternalStorageDirectory().getPath();
-            filepath = new File(path + File.separator + "apksj" + File.separator + "release.apk");//仅创建路径的File对象
-            if (!filepath.exists()) {
-                filepath.mkdir();//如果路径不存在就先创建路径
+            String path=Environment.getExternalStorageDirectory().getPath()+ File.separator + "apk" + File.separator;
+            File file1=new File(path);
+            if (!file1.exists()){
+                file1.mkdir();
             }
+            filepath=new File(path+fileName);
         }
         // 准备进度条Progress弹窗
         final ProgressDialog dialog = new ProgressDialog(this);

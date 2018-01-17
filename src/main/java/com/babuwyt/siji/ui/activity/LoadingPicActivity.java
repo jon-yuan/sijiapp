@@ -64,17 +64,13 @@ import id.zelory.compressor.Compressor;
  */
 @ContentView(R.layout.activity_loadingpic)
 public class LoadingPicActivity extends BaseActivity implements LoadingPicAdapter.DeleteListener, Toolbar.OnMenuItemClickListener {
-    private static int MY_PERMISSIONS_REQUEST_CAMERA = 777;
-    private static int MY_PERMISSIONS_REQUEST_READ = 888;
     @ViewInject(R.id.toolbar)
     Toolbar toolbar;
     @ViewInject(R.id.gridview)
     GridView gridview;
 
-    private RecyclerView.LayoutManager manager;
     private ArrayList<PicEntity> mList;
     private LoadingPicAdapter mAdapter;
-    private String srcPath = "";//本地文件的绝对路径
 
     private String ownsendcarid = null;
     private String addressno = null;
