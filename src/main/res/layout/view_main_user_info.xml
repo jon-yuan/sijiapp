@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/userName"
+        style="@style/TextViewStyle"
+        android:textColor="@color/text_color_big_title"
+        android:text="于少华"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:text="18717372920"
+        app:layout_constraintBottom_toBottomOf="@+id/userName"
+        app:layout_constraintStart_toEndOf="@+id/userName"
+        app:srcCompat="@android:drawable/ic_menu_crop" />
+
+    <TextView
+        android:id="@+id/textView9"
+        style="@style/TextViewStyle"
+        android:layout_height="13dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/has_finish_colon"
+        android:textColor="@color/text_color_icon_title"
+        app:layout_constraintStart_toStartOf="@+id/userName"
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+    <TextView
+        android:id="@+id/textView10"
+        style="@style/TextViewStyle"
+        android:textColor="@color/text_color_icon_title"
+        android:text="1242单"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
+        app:layout_constraintStart_toEndOf="@+id/textView9" />
+
+
+</android.support.constraint.ConstraintLayout>

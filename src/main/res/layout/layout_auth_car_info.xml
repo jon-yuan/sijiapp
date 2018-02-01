@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        style="@style/TextViewStyle"
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"
+        android:paddingVertical="10dp"
+        android:layout_width="match_parent"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:background="#FFEAEAEA"
+        android:text="@string/please_input_car_info"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_navigationbar_size"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#484A4C"
+                android:text="@string/chepaihao"/>
+            <EditText
+                style="@style/TextViewStyle"
+                android:textSize="13sp"
+                android:gravity="right|center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="#BDBFC2"
+                android:background="@null"
+                android:hint="@string/please_input_carnum"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:background="#E8E8E8"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_navigationbar_size"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#484A4C"
+                android:text="@string/chexing"/>
+            <EditText
+                style="@style/TextViewStyle"
+                android:textSize="13sp"
+                android:gravity="right|center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="#BDBFC2"
+                android:background="@null"
+                android:hint="@string/please_select"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_next_right_gray"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:background="#E8E8E8"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_navigationbar_size"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#484A4C"
+                android:text="@string/xingshizheng"/>
+            <EditText
+                style="@style/TextViewStyle"
+                android:textSize="13sp"
+                android:gravity="right|center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="#BDBFC2"
+                android:background="@null"
+                android:hint="@string/please_input_xingshizheng"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:background="#E8E8E8"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_navigationbar_size"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#484A4C"
+                android:text="@string/jiashizheng"/>
+            <EditText
+                style="@style/TextViewStyle"
+                android:textSize="13sp"
+                android:gravity="right|center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="#BDBFC2"
+                android:background="@null"
+                android:hint="@string/please_input_jiashizheng"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:background="#E8E8E8"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_navigationbar_size"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#484A4C"
+                android:text="@string/suoyouren"/>
+            <EditText
+                style="@style/TextViewStyle"
+                android:textSize="13sp"
+                android:gravity="right|center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="#BDBFC2"
+                android:background="@null"
+                android:hint="@string/please_input_cheliangsuoyouren"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:background="#E8E8E8"/>
+
+</LinearLayout>

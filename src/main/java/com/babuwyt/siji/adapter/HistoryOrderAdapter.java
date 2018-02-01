@@ -28,6 +28,7 @@ public class HistoryOrderAdapter extends RecyclerView.Adapter<HistoryOrderAdapte
     public HistoryOrderAdapter(Context context,ArrayList<HistoryOrderItemEntity> list){
         this.mContext=context;
         this.mList=list;
+
     }
 
     @Override

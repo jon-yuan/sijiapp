@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/text_color_gray"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <com.amap.api.navi.view.NextTurnTipView
+            android:id="@+id/myDirectionView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="米后"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:alpha="0.5"
+                    android:gravity="center"
+                    android:text="驶入"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/navi_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.amap.api.navi.AMapNaviView
+        android:id="@+id/navi_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_top" />
+
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:visibility="visible"
+        android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/img_stopnavi"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_tack_photo_x" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tv_retaindistance"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="剩余"
+                android:textColor="@color/edittext_input_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_retaindistance"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/edittext_input_text_color"
+                android:textSize="12sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_above="@+id/layout_bottom"
+        android:layout_margin="10dp"
+        android:background="@color/color_btn_blue">
+        <ImageView
+            android:id="@+id/img_callback"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_x_white" />
+        <TextView
+            android:id="@+id/tv_startNavi"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_marginRight="45dp"
+            android:text="开始导航"
+            android:layout_toRightOf="@+id/img_callback"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/img_location"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="65dp"
+        android:layout_marginLeft="10dp"
+        android:alpha="0.8"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:padding="5dp"
+        android:src="@drawable/icon_zhuizong_dingwei" />
+
+    <ImageView
+        android:id="@+id/img_allmap"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/layout_top"
+        android:layout_margin="10dp"
+        android:alpha="0.8"
+        android:background="@color/white"
+        android:src="@drawable/icon_eyes" />
+    <com.amap.api.navi.view.DirectionView
+        android:id="@+id/directionView"
+        android:layout_below="@+id/layout_top"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <com.amap.api.navi.view.TrafficButtonView
+        android:id="@+id/trafficbtn"
+        android:layout_below="@+id/directionView"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

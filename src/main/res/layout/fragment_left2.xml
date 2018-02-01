@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/userName"
+        style="@style/TextViewStyle"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="64dp"
+        android:text="于少华"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/welcome_back"
+        style="@style/TextViewStyle"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/userName"
+        app:layout_constraintStart_toEndOf="@+id/userName"
+        app:layout_constraintTop_toTopOf="@+id/userName" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_marginTop="16dp"
+        style="@style/TextViewStyle"
+        android:text="@string/has_finish_colon"
+        android:textColor="@color/text_color_icon_title"
+        app:layout_constraintStart_toStartOf="@+id/userName"
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+    <TextView
+        android:id="@+id/tv_has_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        style="@style/TextViewStyle"
+        android:text="1242单"
+        android:textColor="@color/text_color_icon_title"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
+        app:layout_constraintStart_toEndOf="@+id/textView7" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView7">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/icon_logout" />
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_marginStart="20dp"
+            android:text="@string/logout"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_userinfo"
+        style="@style/LinelayoutStyle"
+        android:layout_width="0dp"
+        android:layout_marginTop="64dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView7">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/icon_userinfo" />
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_marginStart="24dp"
+            android:text="@string/personal_information"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_mywallet"
+        style="@style/LinelayoutStyle"
+        android:layout_width="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/layout_userinfo"
+        app:layout_constraintTop_toBottomOf="@+id/layout_userinfo">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/icon_qianbao" />
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_marginStart="24dp"
+            android:text="@string/mywallet"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_historyorder"
+        style="@style/LinelayoutStyle"
+        android:layout_width="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/layout_mywallet"
+        app:layout_constraintTop_toBottomOf="@+id/layout_mywallet">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/icon_hisorder" />
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_marginStart="24dp"
+            android:text="@string/historyorder"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_agreement"
+        style="@style/LinelayoutStyle"
+        android:layout_width="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/layout_historyorder"
+        app:layout_constraintTop_toBottomOf="@+id/layout_historyorder">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/icon_xieyi" />
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:layout_marginStart="24dp"
+            android:text="@string/about_agreement"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

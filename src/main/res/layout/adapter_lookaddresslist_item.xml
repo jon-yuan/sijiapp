@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 style="@style/TextViewStyle"
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/black_98"
+                android:textColor="@color/text_color_gray"
                 android:text=""/>
         </LinearLayout>
         <Space
@@ -47,14 +47,16 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/black_98"
+                android:textColor="@color/text_color_gray"
                 style="@style/TextViewStyle"
                 android:text=""/>
             <ImageView
                 android:id="@+id/image_callphone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_call_phone"/>
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerInside"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/icon_callphone"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -126,7 +126,11 @@ public class PaiZhaoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                getPath(path);
+//                getPath(path);
+                Intent intent=new Intent();
+                intent.putExtra("path",path);
+                setResult(4,intent);
+                finish();
             }
         });
         //设置TextureView监听

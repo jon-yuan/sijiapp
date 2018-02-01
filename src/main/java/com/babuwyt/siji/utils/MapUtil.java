@@ -8,14 +8,7 @@ import android.graphics.Color;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.model.BitmapDescriptorFactory;
-import com.amap.api.maps2d.model.CircleOptions;
-import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.LatLngBounds;
-import com.amap.api.maps2d.model.MarkerOptions;
-import com.amap.api.maps2d.model.PolylineOptions;
+
 
 import java.util.ArrayList;
 
@@ -27,17 +20,17 @@ public class MapUtil{
 
     private static MapUtil mMapUtil;
     private static Context mContext;
-    private static AMap mAMap;
+//    private static AMap mAMap;
     private AMapLocationClient mapLocationClient;
 
-    public static MapUtil getInstance(Context context, AMap aMap) {
-        mContext = context;
-        mAMap = aMap;
-        if (mMapUtil == null) {
-            mMapUtil = new MapUtil();
-        }
-        return mMapUtil;
-    }
+//    public static MapUtil getInstance(Context context, AMap aMap) {
+//        mContext = context;
+//        mAMap = aMap;
+//        if (mMapUtil == null) {
+//            mMapUtil = new MapUtil();
+//        }
+//        return mMapUtil;
+//    }
     public static MapUtil getInstance(Context context) {
         mContext = context;
         if (mMapUtil == null) {
@@ -45,118 +38,118 @@ public class MapUtil{
         }
         return mMapUtil;
     }
-    public void setmAMap(AMap aMap){
-        this.mAMap=aMap;
-    }
-
-    /**
-     * 设置marker
-     *
-     * @param latLng
-     * @param drawID
-     * @param isCenter 设置marker 中心点位置在latlng上
-     */
-    public void addMarker(LatLng latLng, int drawID, boolean isCenter) {
-        mAMap.addMarker(setMarker(latLng, drawID, isCenter));
-    }
-
-    /**
-     * 添加markers
-     *
-     * @param Markers
-     */
-    public void addMarkers(ArrayList<MarkerOptions> Markers) {
-        if (Markers == null && Markers.size() == 0) {
-            return;
-        }
-        for (MarkerOptions markerOptions : Markers) {
-            mAMap.addMarker(markerOptions);
-        }
-    }
-
-    /**
-     * 设置自定义marker
-     *
-     * @param latLng
-     * @param drawID
-     * @return
-     */
-    public MarkerOptions setMarker(LatLng latLng, int drawID, boolean isCenter) {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.draggable(false);
-        if (isCenter) {
-            markerOptions.anchor((float) 0.5, (float) 0.5);
-        }
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                .decodeResource(mContext.getResources(), drawID)));
-        return markerOptions;
-    }
-
-    /**
-     * 地图划线
-     *
-     * @param latLngs
-     */
-    @SuppressLint("NewApi")
-    public void setPolyline(ArrayList<LatLng> latLngs) {
-        mAMap.addPolyline((new PolylineOptions())
-                .addAll(latLngs)
-                .width(10).color(Color.argb(255, 255, 64, 129)));
-    }
-
-    /**
-     * 设置某个坐标为中线点
-     *
-     * @param latLng
-     */
-    public void moveMapCenter(LatLng latLng) {
-        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-    }
-
-    /**
-     * 根据地图设置的经纬度 自动缩放级别
-     *
-     * @param latLngs 地图上设置的经纬度集合
-     * @param size    经纬度距离上下左右屏幕间隔
-     */
-    public void setMapwithBounds(ArrayList<LatLng> latLngs, int size) {
-        LatLngBounds.Builder bounds = new LatLngBounds.Builder();
-        for (int i = 0; i < latLngs.size(); i++) {
-            bounds.include(latLngs.get(i));
-        }
-        mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20));
-    }
-
-    /**
-     * 设置地图缩放级别
-     *
-     * @param zoom (4-20)
-     */
-    public void setMapZoomTo(float zoom) {
-        mAMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
-    }
-
-    /**
-     * 根据当前经纬度设置地图缩放级别
-     *
-     * @param latLng
-     * @param zoom   (4-20)
-     */
-    public void setMapnewLatLngZoom(LatLng latLng, float zoom) {
-        mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-    }
-
-    public void addCircle(LatLng latLng) {
-        mAMap.addCircle(new CircleOptions().
-                center(latLng).
-                radius(50).
-                fillColor(Color.argb(125, 63, 81, 181)).
-                strokeColor(Color.argb(0, 0, 0, 0)).
-                strokeWidth(5)
-        );
-
-    }
+//    public void setmAMap(AMap aMap){
+//        this.mAMap=aMap;
+//    }
+//
+//    /**
+//     * 设置marker
+//     *
+//     * @param latLng
+//     * @param drawID
+//     * @param isCenter 设置marker 中心点位置在latlng上
+//     */
+//    public void addMarker(LatLng latLng, int drawID, boolean isCenter) {
+//        mAMap.addMarker(setMarker(latLng, drawID, isCenter));
+//    }
+//
+//    /**
+//     * 添加markers
+//     *
+//     * @param Markers
+//     */
+//    public void addMarkers(ArrayList<MarkerOptions> Markers) {
+//        if (Markers == null && Markers.size() == 0) {
+//            return;
+//        }
+//        for (MarkerOptions markerOptions : Markers) {
+//            mAMap.addMarker(markerOptions);
+//        }
+//    }
+//
+//    /**
+//     * 设置自定义marker
+//     *
+//     * @param latLng
+//     * @param drawID
+//     * @return
+//     */
+//    public MarkerOptions setMarker(LatLng latLng, int drawID, boolean isCenter) {
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(latLng);
+//        markerOptions.draggable(false);
+//        if (isCenter) {
+//            markerOptions.anchor((float) 0.5, (float) 0.5);
+//        }
+//        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+//                .decodeResource(mContext.getResources(), drawID)));
+//        return markerOptions;
+//    }
+//
+//    /**
+//     * 地图划线
+//     *
+//     * @param latLngs
+//     */
+//    @SuppressLint("NewApi")
+//    public void setPolyline(ArrayList<LatLng> latLngs) {
+//        mAMap.addPolyline((new PolylineOptions())
+//                .addAll(latLngs)
+//                .width(10).color(Color.argb(255, 255, 64, 129)));
+//    }
+//
+//    /**
+//     * 设置某个坐标为中线点
+//     *
+//     * @param latLng
+//     */
+//    public void moveMapCenter(LatLng latLng) {
+//        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+//    }
+//
+//    /**
+//     * 根据地图设置的经纬度 自动缩放级别
+//     *
+//     * @param latLngs 地图上设置的经纬度集合
+//     * @param size    经纬度距离上下左右屏幕间隔
+//     */
+//    public void setMapwithBounds(ArrayList<LatLng> latLngs, int size) {
+//        LatLngBounds.Builder bounds = new LatLngBounds.Builder();
+//        for (int i = 0; i < latLngs.size(); i++) {
+//            bounds.include(latLngs.get(i));
+//        }
+//        mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20));
+//    }
+//
+//    /**
+//     * 设置地图缩放级别
+//     *
+//     * @param zoom (4-20)
+//     */
+//    public void setMapZoomTo(float zoom) {
+//        mAMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
+//    }
+//
+//    /**
+//     * 根据当前经纬度设置地图缩放级别
+//     *
+//     * @param latLng
+//     * @param zoom   (4-20)
+//     */
+//    public void setMapnewLatLngZoom(LatLng latLng, float zoom) {
+//        mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+//    }
+//
+//    public void addCircle(LatLng latLng) {
+//        mAMap.addCircle(new CircleOptions().
+//                center(latLng).
+//                radius(50).
+//                fillColor(Color.argb(125, 63, 81, 181)).
+//                strokeColor(Color.argb(0, 0, 0, 0)).
+//                strokeWidth(5)
+//        );
+//
+//    }
 
     /**
      * 定位

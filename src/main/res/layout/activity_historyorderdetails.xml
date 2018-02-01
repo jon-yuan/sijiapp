@@ -31,12 +31,13 @@
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/yuandanzhuangtai1" />
+                    android:text="@string/yuandanzhuangtai1"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_state"
@@ -44,52 +45,56 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:gravity="right"
+                    android:textSize="14sp"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/yuandanhao" />
+                    android:text="@string/yuandanhao"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_orderNum"
                     style="@style/TextViewStyle"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:textSize="14sp"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/luxian1" />
+                    android:text="@string/luxian1"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_luxian"
@@ -97,25 +102,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/tihuoshijian" />
+                    android:text="@string/tihuoshijian"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_tihuoshijian"
@@ -123,25 +130,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/xiehuoshijian" />
+                    android:text="@string/xiehuoshijian"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_xiehuoshijian"
@@ -149,25 +158,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/remark" />
+                    android:text="@string/remark"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_remark"
@@ -175,25 +186,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/huowu1" />
+                    android:text="@string/huowu1"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_huowu"
@@ -201,25 +214,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/shouru" />
+                    android:text="@string/shouru"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_shouru"
@@ -227,25 +242,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/youkahui" />
+                    android:text="@string/youkahui"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_youkahui"
@@ -253,25 +270,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/youkajine" />
+                    android:text="@string/youkajine"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_youkajine"
@@ -279,25 +298,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/xianjin" />
+                    android:text="@string/xianjin"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_xianjin"
@@ -305,25 +326,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/zengsongjine" />
+                    android:text="@string/zengsongjine"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_zengsong"
@@ -331,25 +354,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/othershouru1" />
+                    android:text="@string/othershouru1"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_othershouru"
@@ -357,25 +382,27 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
             <LinearLayout
                 style="@style/LinelayoutStyle"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingVertical="15dp">
 
                 <TextView
                     style="@style/TextViewStyle"
-                    android:text="@string/otherkouchu1" />
+                    android:text="@string/otherkouchu1"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/tv_otherkouchu"
@@ -383,13 +410,14 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/black_98" />
+                    android:textSize="14sp"
+                    android:textColor="@color/text_color_gray" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:background="@color/main_gray_line" />
 
 

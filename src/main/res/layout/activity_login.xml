@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/background_color">
 
 
     <android.support.v7.widget.Toolbar
@@ -17,7 +16,7 @@
             android:text="@string/login"
             android:textSize="20sp"
             android:layout_gravity="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/nav_title_text_color"/>
     </android.support.v7.widget.Toolbar>
 
     <View
@@ -30,7 +29,7 @@
         style="@style/LinelayoutStyle"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginHorizontal="15dp">
 
         <EditText
             android:id="@+id/et_phoneNum"
@@ -43,14 +42,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/main_gray_line"
+        android:background="@color/line_color_gray"
         android:layout_marginHorizontal="15dp"/>
 
 
     <LinearLayout
         style="@style/LinelayoutStyle"
         android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginHorizontal="15dp">
 
         <EditText
             android:id="@+id/et_authCode"
@@ -68,7 +67,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:textSize="13sp"
-            android:textColor="#989898"
+            android:textColor="@color/text_color_gray"
             android:gravity="center"
             android:text="@string/getAuthCode"/>
 
@@ -76,12 +75,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/main_gray_line"
+        android:background="@color/line_color_gray"
         android:layout_marginHorizontal="15dp"/>
-    <TextView
+    <Button
         android:id="@+id/tv_commit"
         style="@style/ButtonStyle"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="40dp"
         android:text="@string/queding"
         android:textSize="16sp"/>

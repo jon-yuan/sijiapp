@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -46,8 +47,6 @@ public class LoginActivity extends BaseActivity {
     EditText et_phoneNum;
     @ViewInject(R.id.tv_authCode)
     TextView tv_authCode;
-    @ViewInject(R.id.tv_commit)
-    TextView tv_commit;
     private int time=60;
     private Timer timer;
     private Handler handler = new Handler() {
@@ -151,8 +150,8 @@ public class LoginActivity extends BaseActivity {
                 if (result.isSuccess()){
                     UserInfoEntity entity=result.getObj();
                     ((ClientApp) getApplication()).saveLoginUser(entity);
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     setAlias();
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();
                 }else {
                     UHelper.showToast(LoginActivity.this,result.getMsg());

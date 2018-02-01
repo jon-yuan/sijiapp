@@ -32,7 +32,7 @@ public class BannerView extends FrameLayout {
     private static final int MSG_LOOP = 1000;
     private static long LOOP_INTERVAL = 5000;
     private LinearLayout mLinearPosition = null;
-    private ViewPager mViewPager = null;
+    private ViewPagerFix mViewPager = null;
     private BannerHandler mBannerHandler = null;
 
     private List<View> viewList;
@@ -101,7 +101,7 @@ public class BannerView extends FrameLayout {
     }
 
     private void initViewPager() {
-        mViewPager = new ViewPager(getContext());
+        mViewPager = new ViewPagerFix(getContext());
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
                 , ViewGroup.LayoutParams.WRAP_CONTENT);
         mViewPager.setLayoutParams(layoutParams);

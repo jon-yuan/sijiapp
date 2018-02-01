@@ -150,7 +150,6 @@ public class PhotoActivity extends BaseActivity {
             @Override
             public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
                 dialog.dissDialog();
-
                 Intent intent=new Intent();
                 intent.putExtra("PHOTO",cosPath);
                 setResult(Activity.RESULT_OK,intent);

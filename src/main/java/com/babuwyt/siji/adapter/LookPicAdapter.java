@@ -3,6 +3,7 @@ package com.babuwyt.siji.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import com.babuwyt.siji.finals.BaseURL;
 import com.babuwyt.siji.ui.activity.LookBigPictureActivity;
 import com.babuwyt.siji.utils.DensityUtils;
 import com.babuwyt.siji.utils.request.ImageOptions;
-import com.babuwyt.siji.utils.request.XUtil;
 
 import org.xutils.x;
 
@@ -28,9 +28,13 @@ import java.util.ArrayList;
 public class LookPicAdapter extends RecyclerView.Adapter<LookPicAdapter.ViewHoder> {
     private Context mCntext;
     private ArrayList<PicEntity> mList;
+    private SparseBooleanArray mBooleanMap;
+    private LayoutInflater mInflater;
     public LookPicAdapter(Context context,ArrayList<PicEntity> list){
         this.mCntext=context;
         this.mList=list;
+        mInflater = LayoutInflater.from(context);
+        mBooleanMap = new SparseBooleanArray();
     }
     @Override
     public ViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {

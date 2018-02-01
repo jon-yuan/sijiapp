@@ -1,6 +1,6 @@
 package com.babuwyt.siji.ui.activity;
 
-import android.icu.text.SimpleDateFormat;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +30,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 

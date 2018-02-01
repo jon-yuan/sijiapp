@@ -67,26 +67,30 @@ public class MainLeftFragment extends BaseFragment {
     View line;
     private LoadingDialog dialog;
     private Intent intent;
-    private String fispay = "2";
-    private UserInfoEntity entity;
+    private UserInfoEntity mEntity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MainThread)
-    public void helloEventBus(DataSynEvent event) {
-        if (event.getType() == event.DATA_SYNEVENT_CODE1) {
-            setData();
-        }
+    //    @Subscribe(threadMode = ThreadMode.MainThread)
+//    public void helloEventBus(DataSynEvent event) {
+//        if (event.getType() == event.DATA_SYNEVENT_CODE1) {
+//
+//        }
+//    }
+    //设置info数据
+    public void setUserInfo(UserInfoEntity entity) {
+        mEntity = entity;
+        setData(mEntity);
     }
 
     @Override
@@ -98,47 +102,15 @@ public class MainLeftFragment extends BaseFragment {
     private void init() {
         intent = new Intent();
         dialog = new LoadingDialog(getActivity());
+
     }
 
-    @Event(value = {R.id.layout_setting, R.id.btn_chongzhi, R.id.btn_tixian, R.id.layout_personalinfo, R.id.layout_xieyi, R.id.layout_order, R.id.layout_qianbao})
-    private void getE(View v) {
-
+    @Event(value = {R.id.layout_xieyi, R.id.layout_setting})
+    private void getV(View v) {
         switch (v.getId()) {
-            case R.id.layout_personalinfo:
-                if (state()) {
-                    intent.setClass(getActivity(), PersonalInfoActivity.class);
-                    startActivity(intent);
-                }
-                break;
             case R.id.layout_xieyi:
                 intent.setClass(getActivity(), XieYiActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.layout_order:
-                if (state()) {
-                    intent.setClass(getActivity(), HistoryOrderActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.layout_qianbao:
-                if (state()) {
-                    if (fispay.equalsIgnoreCase("2")) {
-                        intent.setClass(getActivity(), MyWalletActivity.class);
-                        startActivity(intent);
-                    }
-                }
-                break;
-            case R.id.btn_chongzhi:
-                if (state()) {
-                    getBankInfo(1);
-                }
-
-                break;
-            case R.id.btn_tixian:
-                if (state()) {
-                    getBankInfo(2);
-                }
-//                startActivity(new Intent(getActivity(), BindingBankCarkActivity.class));
                 break;
             case R.id.layout_setting:
                 intent.setClass(getActivity(), SettingActivity.class);
@@ -147,9 +119,36 @@ public class MainLeftFragment extends BaseFragment {
         }
     }
 
-    private void setData() {
-        entity = SessionManager.getInstance().getUser();
-        tv_name.setText(entity.getFphone());
+    @Event(value = {R.id.btn_chongzhi, R.id.btn_tixian, R.id.layout_personalinfo, R.id.layout_order, R.id.layout_qianbao})
+    private void getE(View v) {
+        if (state(mEntity.getFisdelete())) {
+            switch (v.getId()) {
+                case R.id.layout_personalinfo:
+                    intent.setClass(getActivity(), PersonalInfoActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.layout_order:
+                    intent.setClass(getActivity(), HistoryOrderActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.layout_qianbao:
+                    if (mEntity.getFispay()==2) {
+                        intent.setClass(getActivity(), MyWalletActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
+                case R.id.btn_chongzhi:
+                    getBankInfo(1);
+                    break;
+                case R.id.btn_tixian:
+                    getBankInfo(2);
+                    break;
+            }
+        }
+    }
+
+    private void setData(UserInfoEntity entity) {
+        tv_name.setText(entity.getFattribution());
         tv_finishorder.setText(entity.getFfinishcount());
         tv_income.setText(entity.getFaccount());
         tv_baozhengjin.setText(entity.getFcautionmoney() + "");
@@ -180,13 +179,13 @@ public class MainLeftFragment extends BaseFragment {
      *
      * @return
      */
-    private boolean state() {
+    private boolean state(int fisdelete) {
 
-        if (SessionManager.getInstance().getUser().getFisdelete() == 2 || SessionManager.getInstance().getUser().getFisdelete() == 3) {
+        if (fisdelete == 2 || fisdelete == 3) {
             showAuthDialog(2, getString(SessionManager.getInstance().getUser().getFisdelete() == 3 ? R.string.auth_fail : R.string.no_auth));
             return false;
         }
-        if (SessionManager.getInstance().getUser().getFisdelete() == 4) {
+        if (fisdelete == 4) {
             showAuthDialog(4, getString(R.string.auth_ing));
             return false;
         }

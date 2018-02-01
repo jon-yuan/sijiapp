@@ -107,7 +107,7 @@ public class ClientApp extends Application {
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null) {
                     lat=aMapLocation.getLatitude();
-                    lng=aMapLocation.getLatitude();
+                    lng=aMapLocation.getLongitude();
                     adCode=aMapLocation.getAdCode();
                 }
             }

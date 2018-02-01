@@ -1,6 +1,7 @@
 package com.babuwyt.siji.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStatusBar(true);
+//        setStatusBar(true);
         x.view().inject(this);
         dialog=new LoadingDialog(this);
     }
@@ -126,5 +127,11 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         return result;
+    }
+
+    //跳转 无参
+    protected void startClass(Class activity){
+        Intent intent=new Intent(this,activity);
+        startActivity(intent);
     }
 }

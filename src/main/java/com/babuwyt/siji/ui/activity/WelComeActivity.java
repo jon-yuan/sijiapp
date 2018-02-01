@@ -2,7 +2,6 @@ package com.babuwyt.siji.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,14 +10,12 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
-import com.babuwyt.siji.base.ClientApp;
 import com.babuwyt.siji.base.SessionManager;
 import com.babuwyt.siji.finals.Constants;
+import com.babuwyt.siji.ui.activity.activity2.LoginActivity2;
 import com.babuwyt.siji.views.PromptDialog;
 
 import org.xutils.view.annotation.ContentView;
@@ -51,7 +48,7 @@ public class WelComeActivity extends BaseActivity{
     private void isLogin(){
         //todo 判断是否已经登陆
         if (SessionManager.getInstance().isLogin()){
-            Intent intent=new Intent(this,LoadingPicActivity.class);
+            Intent intent=new Intent(this,LoginActivity2.class);
 //            if(getIntent().getBundleExtra(Constants.EXTRA_BUNDLE) != null){
 //                intent.putExtra(Constants.EXTRA_BUNDLE,
 //                        getIntent().getStringExtra(Constants.EXTRA_BUNDLE));

@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,18 +28,19 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
-
-import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.Marker;
 import com.babuwyt.siji.R;
 import com.babuwyt.siji.base.BaseActivity;
 import com.babuwyt.siji.base.ClientApp;
@@ -65,6 +67,7 @@ import com.babuwyt.siji.utils.request.CommonCallback.ResponseProgressCallBack;
 import com.babuwyt.siji.utils.request.XUtil;
 import com.babuwyt.siji.views.PromptDialog;
 import com.babuwyt.siji.views.SignInDialog;
+import com.google.gson.Gson;
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
 
@@ -84,6 +87,10 @@ import de.greenrobot.event.EventBus;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
+    @ViewInject(R.id.right)
+    RelativeLayout right;
+    @ViewInject(R.id.fl_content)
+    FrameLayout fl_content;
     @ViewInject(R.id.linear_layout)
     LinearLayout linear_layout;
     @ViewInject(R.id.num_msg)
@@ -142,7 +149,6 @@ public class MainActivity extends BaseActivity {
     private NewOrderInfoEntity entity;
     private double mlatitude;
     private double mlongitude;
-    private String addressno;
     private UserInfoEntity mEntity;
 
     private Timer mTimer = null;
@@ -163,32 +169,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         init();
         initRefresh();
-        getPersonal();
-        getNum();
         getNewOrder();
         getVersion();
         registerMessageReceiver();
         getCarLocation();
-    }
-
-    private void getIntents() {
-        String type = getIntent().getStringExtra(Constants.EXTRA_BUNDLE);
-        Intent i = new Intent();
-        if (type != null) {
-            switch (type) {
-                case "2":
-                case "6":
-                    i.setClass(this, MyWalletActivity.class);
-                    startActivity(i);
-                    break;
-                default:
-                    i.setClass(this, MsgActivity.class);
-                    startActivity(i);
-                    break;
-            }
-
-
-        }
     }
 
     private void startTimer() {
@@ -303,9 +287,9 @@ public class MainActivity extends BaseActivity {
         springview.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
+                getPersonal();
                 getNum();
                 getNewOrder();
-                getPersonal();
             }
 
             @Override
@@ -316,50 +300,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    //这里判断有没有数据  有数据显示 没数据提示
-    private void isHasData(boolean hasData) {
-        if (hasData) {
-            linear_layout.setVisibility(View.VISIBLE);
-            tv_orderNum.setVisibility(View.VISIBLE);
-            tv_no_dataview.setVisibility(View.GONE);
-            setData();
-        } else {
-            linear_layout.setVisibility(View.GONE);
-            tv_orderNum.setVisibility(View.INVISIBLE);
-            tv_no_dataview.setVisibility(View.VISIBLE);
-            dialog.dissDialog();
-            springview.onFinishFreshAndLoad();
-        }
-    }
 
-    private void setData() {
-        if (entity == null) {
-            return;
-        }
-        tv_orderNum.setText(getString(R.string.orderno) + entity.getFsendcarno());
-        tv_yunfei.setText(entity.getFshouldpay() <= 0 ? "0" : entity.getFshouldpay() + "");
-        tv_youka.setText(entity.getFshouldpayOilcard() <= 0 ? "0" : entity.getFshouldpayOilcard() + "");//
-        tv_othershouru.setText(entity.getFotherin() <= 0 ? "0" : entity.getFotherin() + "");//
-        tv_otherkouchu.setText(entity.getFotherout() <= 0 ? "0" : entity.getFotherout() + "");//
-        tv_xianjin.setText(entity.getCash() <= 0 ? "0" : entity.getCash() + "");//
-        tv_zengsong.setText(entity.getFshouldreturnmoney() <= 0 ? "0" : entity.getFshouldreturnmoney() + "");//
-        double sr = entity.getFshouldpay() + entity.getFshouldreturnmoney()
-                - entity.getFotherin() - entity.getFotherout();
-        tv_shouru.setText(sr <= 0 ? "0" : sr + "");//
-        tv_remark.setText(entity.getPickcount() + getString(R.string.ti) + entity.getUnloadcount() + getString(R.string.xie1));//运费
-        tv_start.setText(entity.getStart());//
-        tv_end.setText(entity.getEnd());//
-        //fvicecard
-        if (TextUtils.isEmpty(entity.getFvicecard())) {
-            tv_binding.setEnabled(true);
-            tv_binding.setBackgroundResource(R.drawable.button_shape);
-        } else {
-            tv_binding.setEnabled(false);
-            tv_binding.setBackgroundResource(R.drawable.button_shape_gray);
-        }
-        dialog.dissDialog();
-        springview.onFinishFreshAndLoad();
-    }
 
 
     private void init() {
@@ -370,12 +311,46 @@ public class MainActivity extends BaseActivity {
         leftAction = manager.beginTransaction();
         leftAction.replace(R.id.fl_content, fragment);
         leftAction.commit();
-        layout_msg.setVisibility(View.GONE);
+        drawer_layout.setScrimColor(Color.TRANSPARENT);
+
+        drawer_layout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+//                WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+//                Display display = manager.getDefaultDisplay();
+//                //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
+//                right.layout(fl_content.getRight(), 0, fl_content.getRight() + display.getWidth(), display.getHeight());
+                View content = drawer_layout.getChildAt(0);
+                View menu = drawerView;
+                float scale = 1 - slideOffset;//1~0
+                float rightScale = 0.8f + scale * 0.2f; //把1.0~0.0转化为1.0~0.8
+                content.setTranslationX(menu.getMeasuredWidth() * (1 - scale));//0~width
+                content.setScaleY(rightScale);
+//                content.setScaleX(rightScale);
+//                float t=1-scale;
+//                content1.setAlpha(t);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
     }
 
-    private void setState() {
+    private void setState(int isdelete) {
         String Fdelet = "";
-        switch (SessionManager.getInstance().getUser().getFisdelete()) {
+        switch (isdelete) {
             case 0:
                 Fdelet = "不可用";
                 break;
@@ -400,7 +375,7 @@ public class MainActivity extends BaseActivity {
 
     @Event(value = {R.id.tv_xiehuopic, R.id.layout_msg, R.id.tv_looksignno, R.id.tv_qiandao, R.id.tv_signpic, R.id.tv_zhuanghuopic, R.id.look_pic, R.id.layout_topBtn, R.id.tv_othershourudetails, R.id.tv_otherkouchudetails, R.id.layout_qiang, R.id.tv_binding, R.id.tv_lookaddress})
     private void getE(View v) {
-        if (state()) {
+        if (state(mEntity.getFisdelete())) {
             switch (v.getId()) {
                 case R.id.layout_topBtn:
                     if (!drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -421,7 +396,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.layout_qiang:
                     intent.setClass(this, GrabOrderListActivity.class);
-//                    intent.setClass(this, SignNoListActivity.class);
+//                    intent.setClass(this, RouteNavigationActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.tv_binding:
@@ -574,19 +549,20 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSuccess(NewOrderInfoBean result) {
                 super.onSuccess(result);
-
                 if (result.isSuccess()) {
                     ArrayList<NewOrderInfoEntity> list = result.getObj();
                     if (list == null || list.size() < 1) {
                         isHasData(false);
                     } else {
-                        entity = result.getObj().get(0);
+                        entity = list.get(0);
                         isHasData(true);
                     }
                 } else {
                     isHasData(false);
                 }
-
+                dialog.dissDialog();
+                springview.onFinishFreshAndLoad();
+                UHelper.showToast(MainActivity.this,result.getMsg());
             }
 
             @Override
@@ -597,7 +573,50 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+    //这里判断有没有数据  有数据显示 没数据提示
+    private void isHasData(boolean hasData) {
 
+        if (hasData) {
+            linear_layout.setVisibility(View.VISIBLE);
+            tv_orderNum.setVisibility(View.VISIBLE);
+            tv_no_dataview.setVisibility(View.GONE);
+            setData();
+        } else {
+            linear_layout.setVisibility(View.GONE);
+            tv_orderNum.setVisibility(View.INVISIBLE);
+            tv_no_dataview.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    private void setData() {
+        if (entity == null) {
+            return;
+        }
+        tv_orderNum.setText(getString(R.string.orderno) + entity.getFsendcarno());
+        tv_yunfei.setText(entity.getFshouldpay() <= 0 ? "0" : entity.getFshouldpay() + "");
+        tv_youka.setText(entity.getFshouldpayOilcard() <= 0 ? "0" : entity.getFshouldpayOilcard() + "");//
+        tv_othershouru.setText(entity.getFotherin() <= 0 ? "0" : entity.getFotherin() + "");//
+        tv_otherkouchu.setText(entity.getFotherout() <= 0 ? "0" : entity.getFotherout() + "");//
+        tv_xianjin.setText(entity.getCash() <= 0 ? "0" : entity.getCash() + "");//
+        tv_zengsong.setText(entity.getFshouldreturnmoney() <= 0 ? "0" : entity.getFshouldreturnmoney() + "");//
+        double sr = entity.getFshouldpay() + entity.getFshouldreturnmoney()
+                - entity.getFotherin() - entity.getFotherout();
+        tv_shouru.setText(sr <= 0 ? "0" : sr + "");//
+        tv_remark.setText(entity.getPickcount() + getString(R.string.ti) + entity.getUnloadcount() + getString(R.string.xie1));//运费
+        tv_start.setText(entity.getStart());//
+        tv_end.setText(entity.getEnd());//
+        //fvicecard
+        if (TextUtils.isEmpty(entity.getFvicecard())) {
+            tv_binding.setEnabled(true);
+            tv_binding.setBackgroundResource(R.drawable.button_shape);
+        } else {
+            tv_binding.setEnabled(false);
+            tv_binding.setBackgroundResource(R.drawable.button_shape_gray);
+        }
+        dialog.dissDialog();
+        springview.onFinishFreshAndLoad();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -726,6 +745,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        getPersonal();
+        getNum();
     }
 
     /**
@@ -739,18 +760,16 @@ public class MainActivity extends BaseActivity {
                 if (result.isSuccess()) {
                     mEntity = result.getObj();
                     UserInfoEntity user = SessionManager.getInstance().getUser();
-                    UserInfoEntity entity = result.getObj();
-                    if (entity != null) {
-                        entity.setWebtoken(user.getWebtoken());
-                        entity.setFdriverid(user.getFdriverid());
-                        entity.setFdrivername(user.getFdrivername());
-                        entity.setFphone(user.getFphone());
-                        entity.setCarid(user.getCarid());
-                        entity.setFplateno(user.getFplateno());
-                        ((ClientApp) getApplication()).saveLoginUser(entity);
-                        setState();
-                        sendEven();
-                        state();
+                    if (mEntity != null) {
+                        mEntity.setWebtoken(user.getWebtoken());
+                        mEntity.setFdriverid(user.getFdriverid());
+                        mEntity.setFdrivername(user.getFdrivername());
+                        mEntity.setFphone(user.getFphone());
+                        mEntity.setCarid(user.getCarid());
+                        mEntity.setFplateno(user.getFplateno());
+                        fragment.setUserInfo(mEntity);
+                        setState(mEntity.getFisdelete());
+                        ((ClientApp) getApplication()).saveLoginUser(mEntity);
                     }
 
                 }
@@ -767,6 +786,7 @@ public class MainActivity extends BaseActivity {
     /**
      * 发送消息给侧滑页面，设置数据
      */
+    @Deprecated
     private void sendEven() {
         DataSynEvent event = new DataSynEvent();
         event.setType(event.DATA_SYNEVENT_CODE1);
@@ -940,13 +960,13 @@ public class MainActivity extends BaseActivity {
      *
      * @return
      */
-    private boolean state() {
+    private boolean state(int fisdelete) {
 
-        if (SessionManager.getInstance().getUser().getFisdelete() == 2 || SessionManager.getInstance().getUser().getFisdelete() == 3) {
+        if (fisdelete == 2 || fisdelete == 3) {
             showDialog(2, getString(SessionManager.getInstance().getUser().getFisdelete() == 3 ? R.string.auth_fail : R.string.no_auth));
             return false;
         }
-        if (SessionManager.getInstance().getUser().getFisdelete() == 4) {
+        if (fisdelete == 4) {
             showDialog(4, getString(R.string.auth_ing));
             return false;
         }
